@@ -1,15 +1,22 @@
 import React, {useCallback, useState} from 'react';
-import {Button, Error, Form, Header, Input, Label, LinkContainer} from "@pages/style";
-import { Link } from 'react-router-dom';
+import {Button, Error, Form, Header, Input, Label, LinkContainer, Success} from "@pages/style";
+import {Link, Redirect} from 'react-router-dom';
 import useInput from '@hooks/useInput';
+import useSWR from "swr";
+import fetcher from "@utils/fetcher";
+import axios from "axios";
 
 const SignUp = () => {
+    const {data, error, revalidate} = useSWR('http://localhost:8000/signup/', fetcher);
+    console.log("!!! = ", data);
     const [email, onChangeEmail] = useInput('');
     const [name, onChangeName] = useInput('');
-    const [nickname, onChangeNickname] = useInput('');
+    const [nick, onChangeNickname] = useInput('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [mismatchError, setMismatchError] = useState(false);
+    const [signUpError, setSignUpError] = useState('');
+    const [signUpSuccess, setSignUpSuccess] = useState(false);
 
     const onChangePassword = useCallback((e) => {
         setPassword(e.target.value);
@@ -20,14 +27,41 @@ const SignUp = () => {
         setPasswordCheck(e.target.value);
         setMismatchError(e.target.value !== password);
     }, [password]);
+    console.log("mis", mismatchError);
+    const onSubmit = useCallback((e) => {
+        if (!mismatchError) {
+            console.log('회원가입');
+            setSignUpError(''); // 비동기 요청 전 초기화
+            setSignUpSuccess(false); // 비동기 요청 전 초기화
+            axios.post('http://localhost:8000/signup/', {
+                email,
+                name,
+                nick,
+                password,
+            })
+                .then((response) => {
+                    console.log("AAaaa");
+                    console.log(response);
+                    setSignUpSuccess(true);
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                    setSignUpError(error.response.data);
+                })
+                .finally(() => {});
+        }
+    },[email, nick, password, passwordCheck]);
+
+    if (data) {
+        return <Redirect to="/main" />
+    }
 
     return (
         <div id="container">
             <Header>
                 <img src="utils/logo.png"/>
             </Header>
-            {/*<Form onSubmit={onSubmit}>*/}
-            <Form>
+            <Form onSubmit={onSubmit}>
                 <Label id="email-label">
                     <span>이메일 주소</span>
                     <div>
@@ -43,7 +77,7 @@ const SignUp = () => {
                 <Label id="nickname-label">
                     <span>닉네임</span>
                     <div>
-                        <Input type="text" id="nickname" name="nickname" value={nickname} onChange={onChangeNickname} />
+                        <Input type="text" id="nickname" name="nick" value={nick} onChange={onChangeNickname} />
                     </div>
                 </Label>
                 <Label id="password-label">
@@ -64,9 +98,9 @@ const SignUp = () => {
                         />
                     </div>
                     {mismatchError && <Error>비밀번호가 일치하지 않습니다.</Error>}
-                    {!nickname && <Error>닉네임을 입력해주세요.</Error>}
-                    {/*{signUpError && <Error>{signUpError}</Error>}*/}
-                    {/*{signUpSuccess && <Success>회원가입되었습니다! 로그인해주세요.</Success>}*/}
+                    {!nick && <Error>닉네임을 입력해주세요.</Error>}
+                    {signUpError && <Error>{signUpError}</Error>}
+                    {signUpSuccess && <Success>회원가입되었습니다! 로그인해주세요.</Success>}
                 </Label>
                 <Button type="submit">회원가입</Button>
             </Form>

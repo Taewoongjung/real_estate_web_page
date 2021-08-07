@@ -10,7 +10,7 @@ const LogIn = () => {
     return (
         <div id="container">
             <Header>
-                <img src="utils/logoImage2.png"/>
+                <img src="utils/logo.png"/>
             </Header>
             {/*<Form onSubmit={onSubmit}>*/}
             <Form>
