@@ -12,6 +12,7 @@ router.get("/signingup", (req, res, next) => {
 
 router.post("/signingup", isNotLoggedIn, async (req, res, next) => {
     try {
+        console.log("뭐가 넘어오나 = ", req.body);
         const exUser = await User.findOne({
             where: {
                 email: req.body.email,
@@ -21,6 +22,7 @@ router.post("/signingup", isNotLoggedIn, async (req, res, next) => {
             return res.status(403).send("이미 사용 중인 아이디입니다.");
         }
         const hashedPassword = await bcrypt.hash(req.body.password, 12);
+        console.log("뭐가 넘어오나 = ", req.body);
         const user = await User.create({
             email: req.body.email,
             name: req.body.name,
@@ -31,6 +33,7 @@ router.post("/signingup", isNotLoggedIn, async (req, res, next) => {
         res.status(201).send("ok");
     } catch (error) {
         console.error(error);
+        console.error("무슨 에러? = ", error);
         next(error); // status 500
     }
 });

@@ -61,8 +61,12 @@ app.use(passport.session());
 
 app.use("/signup", signupRouter);
 
+app.get("*", (req, res, next) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 const server = app.listen(app.get("PORT"), () => {
-    console.log(`listening on port ${app.get("PORT")}`);
+    console.log(app.get('PORT'), '번 포트에서 대기중');
 });
 
 module.exports = app;
