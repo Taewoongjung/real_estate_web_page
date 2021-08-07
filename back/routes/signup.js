@@ -6,7 +6,11 @@ const User = require("../models/user");
 
 const router = express.Router();
 
-router.post("signingup", isNotLoggedIn, async (req, res, next) => {
+router.get("/signingup", (req, res, next) => {
+    return res.json(req.user || false);
+}); // SWR 요청은 GET으로 오기 때문에 이 라우터 추가 필요
+
+router.post("/signingup", isNotLoggedIn, async (req, res, next) => {
     try {
         const exUser = await User.findOne({
             where: {
