@@ -1,10 +1,6 @@
 const express = require("express");
-const { Op } = require("sequelize");
-const passport = require("passport");
-const path = require("path");
 const bcrypt = require("bcrypt");
 
-const { sequelize } = require("../models");
 const { isNotLoggedIn, isLoggedIn } = require("./middlewares");
 const User = require("../models/user");
 
@@ -27,6 +23,7 @@ router.post("signingup", isNotLoggedIn, async (req, res, next) => {
             nick: req.body.nick,
             password: hashedPassword,
         });
+        console.log(" 회원가입 완료 = ", user);
         res.status(201).send("ok");
     } catch (error) {
         console.error(error);

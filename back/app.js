@@ -12,6 +12,7 @@ const passport = require("passport");
 dotenv.config();
 const { sequelize } = require('./models');
 const passportConfig = require("./passport");
+const signupRouter = require("./routes/signup");
 
 const app = express();
 app.set("PORT", process.env.PORT || 8000);
@@ -57,6 +58,8 @@ if (prod) {
 app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use("/signup", signupRouter);
 
 const server = app.listen(app.get("PORT"), () => {
     console.log(`listening on port ${app.get("PORT")}`);
