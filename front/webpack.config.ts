@@ -73,12 +73,12 @@ const config: webpack.Configuration = {
         historyApiFallback: true, // react router
         port: 8080,
         publicPath: '/dist/',
-        // proxy: {
-        //     '/api/': {
-        //         target: 'http://localhost:8085',
-        //         changeOrigin: true,
-        //     },
-        // },
+        proxy: {
+            '/api/': {
+                target: 'http://localhost:8000',
+                changeOrigin: true,
+            },
+        },
     },
 };
 

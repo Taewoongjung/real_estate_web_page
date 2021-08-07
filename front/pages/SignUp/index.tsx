@@ -5,6 +5,7 @@ import useInput from '@hooks/useInput';
 
 const SignUp = () => {
     const [email, onChangeEmail] = useInput('');
+    const [name, onChangeName] = useInput('');
     const [nickname, onChangeNickname] = useInput('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -23,7 +24,7 @@ const SignUp = () => {
     return (
         <div id="container">
             <Header>
-                <img src="utils/logoImage2.png"/>
+                <img src="utils/logo.png"/>
             </Header>
             {/*<Form onSubmit={onSubmit}>*/}
             <Form>
@@ -31,6 +32,12 @@ const SignUp = () => {
                     <span>이메일 주소</span>
                     <div>
                         <Input type="email" id="email" name="email" value={email} onChange={onChangeEmail} />
+                    </div>
+                </Label>
+                <Label id="name-label">
+                    <span>이름</span>
+                    <div>
+                        <Input type="text" id="name" name="name" value={name} onChange={onChangeName} />
                     </div>
                 </Label>
                 <Label id="nickname-label">
