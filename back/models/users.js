@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 
 module.exports = class Users extends Sequelize.Model {
     static init(sequelize) {
@@ -33,4 +33,4 @@ module.exports = class Users extends Sequelize.Model {
     // static associate(db) {
     //     db.User.hasMany(db.Who);
     // }
-}
+};
