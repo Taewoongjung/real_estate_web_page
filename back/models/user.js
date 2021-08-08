@@ -1,23 +1,24 @@
-const Sequelize = require('sequelize');
+const DataTypes = require('sequelize');
+const { Model } = DataTypes;
 
-module.exports = class User extends Sequelize.Model {
+module.exports = class User extends Model {
     static init(sequelize) {
         return super.init({
             email: {
-                type: Sequelize.STRING(40),
+                type: DataTypes.STRING(40),
                 allowNull: true,
                 unique: true,
             },
             name: {
-                type: Sequelize.STRING(17),
+                type: DataTypes.STRING(17),
                 allowNull: true,
             },
             nick: {
-                type: Sequelize.STRING(17),
+                type: DataTypes.STRING(17),
                 allowNull: true,
             },
             password: {
-                type: Sequelize.STRING(100),
+                type: DataTypes.STRING(100),
                 allowNull: true,
             }
         }, {
@@ -25,7 +26,7 @@ module.exports = class User extends Sequelize.Model {
             timestamps: true,
             paranoid: true,
             modelName: 'User',
-            tableName: 'users',
+            tableName: 'user',
             charset: 'utf8',
             collate: 'utf8_general_ci',
         });
