@@ -28,7 +28,9 @@ const SignUp = () => {
         setMismatchError(e.target.value !== password);
     }, [password]);
     console.log("mis", mismatchError);
+
     const onSubmit = useCallback((e) => {
+        e.preventDefault();
         if (!mismatchError) {
             console.log('회원가입');
             setSignUpError(''); // 비동기 요청 전 초기화
@@ -40,7 +42,6 @@ const SignUp = () => {
                 password,
             })
                 .then((response) => {
-                    console.log("AAaaa");
                     console.log(response);
                     setSignUpSuccess(true);
                 })
@@ -51,6 +52,9 @@ const SignUp = () => {
                 .finally(() => {});
         }
     },[email, nick, password, passwordCheck]);
+    if (data === undefined) {
+        return <div>로딩중...</div>
+    }
 
     if (data) {
         return <Redirect to="/main" />
