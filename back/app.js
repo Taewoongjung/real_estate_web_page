@@ -12,7 +12,7 @@ const passport = require("passport");
 dotenv.config();
 const { sequelize } = require('./models');
 const passportConfig = require("./passport");
-const signupRouter = require("./routes/signup");
+const authRouter = require("./routes/auth");
 
 const app = express();
 app.set("PORT", process.env.PORT || 8000);
@@ -41,6 +41,7 @@ if (prod) {
 }
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 const sessionOption = {
@@ -59,8 +60,7 @@ app.use(session(sessionOption));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/signup", signupRouter);
-
+app.use("/auth", authRouter);
 app.get("*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
