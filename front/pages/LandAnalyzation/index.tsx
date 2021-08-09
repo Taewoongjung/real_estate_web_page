@@ -14,6 +14,8 @@ const LandAnalyzation = () => {
 
     const [navCollapse, setNavCollapse] = useState(true);
     const [data, setData] = useState('');
+    const [responsedData, setResponsedData] = useState('');
+    const [getPnu, setPnu] = useState('');
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
@@ -116,7 +118,7 @@ const LandAnalyzation = () => {
         });
     },[]);
 
-    const onClick = useCallback((e) => {
+    const onClick_first = useCallback((e) => {
         e.preventDefault();
         axios.get(
             `http://dapi.kakao.com/v2/local/search/address.json?query=${window.adrr}&analyze_type=similar&page=10&size=1`,
@@ -124,7 +126,7 @@ const LandAnalyzation = () => {
                 headers: {Authorization: 'KakaoAK 50be921832a2d06f65d24b6e54ba16e5'},
             })
             .then(response => {
-
+                setResponsedData(response.data);
                 console.log(response.data);
                 // @ts-ignore
                 document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
@@ -140,8 +142,6 @@ const LandAnalyzation = () => {
                 const sub = document.getElementById("jsonSub").innerHTML = response.data['documents'][0]['address']['sub_address_no'];
                 // @ts-ignore
                 document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
-
-                /////////////////////////////////////////////////////////////////////
 
 
                 /////////////////////////////////////////////////////////////////////
@@ -176,13 +176,27 @@ const LandAnalyzation = () => {
 
                 if(YoN === 'N') {
                     beforeFull += (1 + arrStr_main + arrStr_sub);
+                    setPnu(beforeFull);
                 } else {
                     beforeFull += (2 + arrStr_main + arrStr_sub);
+                    setPnu(beforeFull);
                 }
                 /////////////////////////////////////////////////////////////////////
 
                 // @ts-ignore
                 const Full = document.getElementById("jsonFullPNU").innerHTML = beforeFull;
+
+            });
+    },[]);
+
+    const onClick_second = useCallback((e) => {
+        e.preventDefault();
+        axios.get(
+            `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D&pnu=${getPnu}&stdrYear=2021&format=xml&numOfRows=10&pageNo=1`,
+            {
+                withCredentials: true,
+            })
+            .then(response => {
 
             });
     },[]);
@@ -247,8 +261,8 @@ const LandAnalyzation = () => {
                         </tr>
                         <tr>
                             <td>선택한 땅 확인 : &nbsp;</td>
-                            <td>{data && <button onClick={onClick}>클릭</button>}</td>
-                            {/*{data && JSON.parse(data).address_name}*/}
+                            <td>{data && <button onClick={onClick_first}>클릭</button>}</td>
+                            <td>{responsedData && <button onClick={onClick_second}>공시지가 확인</button>}</td>
                         </tr>
                         <tr><td>&nbsp;</td></tr>
                         <tr>
@@ -282,6 +296,10 @@ const LandAnalyzation = () => {
                         <tr>
                             <td>좌표(y) : &nbsp;</td>
                             <td><div id="jsonY" /></td>
+                        </tr>
+                        <tr><td id="FromNowOnSecondInformation">&nbsp;</td></tr>
+                        <tr>
+
                         </tr>
                     </table>
                 </Aside>
