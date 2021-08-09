@@ -7,6 +7,7 @@ declare global {
     interface Window {
         kakao: any;
         adrr: string;
+        pnu: string;
     }
 }
 
@@ -16,6 +17,7 @@ const LandAnalyzation = () => {
     const [data, setData] = useState('');
     const [responsedData, setResponsedData] = useState('');
     const [getPnu, setPnu] = useState('');
+    const [secondInfo, setSecondInfo] = useState('');
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
@@ -127,6 +129,7 @@ const LandAnalyzation = () => {
             })
             .then(response => {
                 setResponsedData(response.data);
+                console.log("first Info");
                 console.log(response.data);
                 // @ts-ignore
                 document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
@@ -176,10 +179,10 @@ const LandAnalyzation = () => {
 
                 if(YoN === 'N') {
                     beforeFull += (1 + arrStr_main + arrStr_sub);
-                    setPnu(beforeFull);
+                    window.pnu = beforeFull;
                 } else {
                     beforeFull += (2 + arrStr_main + arrStr_sub);
-                    setPnu(beforeFull);
+                    window.pnu = beforeFull;
                 }
                 /////////////////////////////////////////////////////////////////////
 
@@ -191,13 +194,16 @@ const LandAnalyzation = () => {
 
     const onClick_second = useCallback((e) => {
         e.preventDefault();
+        console.log("@!@!@ = ", window.pnu);
+        setPnu(window.pnu);
         axios.get(
-            `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D&pnu=${getPnu}&stdrYear=2021&format=xml&numOfRows=10&pageNo=1`,
-            {
-                withCredentials: true,
-            })
+            `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D&pnu=${window.pnu}&stdrYear=2021&format=json&numOfRows=10&pageNo=1`,
+            )
             .then(response => {
-
+                setSecondInfo(response.data);
+                console.log("second Info");
+                console.log(response.data);
+                console.log(secondInfo);
             });
     },[]);
 
@@ -270,7 +276,7 @@ const LandAnalyzation = () => {
                             <td><div id="jsonAddr" /></td>
                         </tr>
                         <tr>
-                            <td>산 || 일반 : &nbsp;</td>
+                            <td>산(N)일반(Y) : &nbsp;</td>
                             <td><div id="jsonMountain" /></td>
                         </tr>
                         <tr>
@@ -298,9 +304,44 @@ const LandAnalyzation = () => {
                             <td><div id="jsonY" /></td>
                         </tr>
                         <tr><td id="FromNowOnSecondInformation">&nbsp;</td></tr>
+                        {getPnu &&
                         <tr>
-
+                            <td>특수지구분명 : &nbsp;</td>
+                            <td><div id="regstrSeCode" /></td>
                         </tr>
+                        }
+                        {getPnu &&
+                        <tr>
+                            <td>특수지구분코드 : &nbsp;</td>
+                            <td>
+                                <div id="regstrSeCodeNm"/>
+                            </td>
+                        </tr>
+                        }
+                        {getPnu &&
+                        <tr>
+                            <td>공시 일자 : &nbsp;</td>
+                            <td>
+                                <div id="pblntfDe"/>
+                            </td>
+                        </tr>
+                        }
+                        {getPnu &&
+                        <tr>
+                            <td>공시지가 : &nbsp;</td>
+                            <td>
+                                <div id="pblntfPclnd"/>
+                            </td>
+                        </tr>
+                        }
+                        {getPnu &&
+                        <tr>
+                            <td>데이터기준일자 : &nbsp;</td>
+                            <td>
+                                <div id="lastUpdtDt"/>
+                            </td>
+                        </tr>
+                        }
                     </table>
                 </Aside>
             </Container>
