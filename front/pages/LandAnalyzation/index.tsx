@@ -12,7 +12,7 @@ declare global {
 const LandAnalyzation = () => {
 
     const [navCollapse, setNavCollapse] = useState(true);
-    const [data, setData] = useState('');
+    const [data, setData] = useState(null);
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
@@ -62,8 +62,6 @@ const LandAnalyzation = () => {
         // 지도를 클릭했을 때 클릭 위치 좌표에 대한 주소정보를 표시하도록 이벤트를 등록합니다
         window.kakao.maps.event.addListener(map, 'click', function (mouseEvent: any) {
             searchDetailAddrFromCoords(mouseEvent.latLng, function (result: any, status: any) {
-                // var infoAddr = document.getElementById('detailAddr');
-                // infoAddr.innerHTML = result[0].road_address.address_name;
                 if (status === window.kakao.maps.services.Status.OK) {
                     var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].address.address_name + '</div>' : '';
                     detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
@@ -82,7 +80,7 @@ const LandAnalyzation = () => {
                 var infoAddr = document.getElementById('detailAddr');
                 // @ts-ignore
                 infoAddr.innerHTML = result[0].address.address_name;
-
+                let aaa = result[0].address.address_name;
             });
             // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
             window.kakao.maps.event.addListener(map, 'idle', function () {
@@ -113,19 +111,22 @@ const LandAnalyzation = () => {
                     }
                 }
             }
-
-            let response = axios.get(
-                `http://dapi.kakao.com/v2/local/search/address.json?query=울산 울주군 언양읍 반송리 575-3&analyze_type=similar&page=10&size=1`,
-                {
-                    headers: {Authorization: 'KakaoAK 50be921832a2d06f65d24b6e54ba16e5'},
-                });
-            console.log("!@! = ", JSON.stringify(response));
-            console.log("!@! = ", response);
         });
-    })
+    });
 
-    const onSubmit = useCallback((e) => {
+    const onClick = useCallback((e) => {
         e.preventDefault();
+        axios.get(
+            `http://dapi.kakao.com/v2/local/search/address.json?query=${aaa}&analyze_type=similar&page=10&size=1`,
+            {
+                headers: {Authorization: 'KakaoAK 50be921832a2d06f65d24b6e54ba16e5'},
+            })
+            .then(response => {
+                setData(response.data);
+                console.log(response.data);
+                // @ts-ignore
+                return document.getElementById("jsonText").innerHTML = response.data['documents'][0]['address']['address_name'];
+            });
     },[]);
 
     return (
@@ -188,7 +189,9 @@ const LandAnalyzation = () => {
                         </tr>
                         <tr>
                             <td>공시지가 : &nbsp;</td>
-                            <td><div id="detailInfoAddr"></div></td>
+                            <td><button onClick={onClick}>불러오기</button></td>
+                            {/*{data && JSON.parse(data).address_name}*/}
+                            <td><div id="jsonText"></div></td>
                         </tr>
                     </table>
                 </Aside>
