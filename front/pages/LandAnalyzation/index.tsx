@@ -6,12 +6,14 @@ import axios from "axios";
 declare global {
     interface Window {
         kakao: any;
+        adrr: string;
     }
 }
 
 const LandAnalyzation = () => {
 
     const [navCollapse, setNavCollapse] = useState(true);
+    const [adr, setAdr] = useState('');
     const [data, setData] = useState(null);
 
     const navDropdownCollapse = useCallback(() => {
@@ -80,7 +82,12 @@ const LandAnalyzation = () => {
                 var infoAddr = document.getElementById('detailAddr');
                 // @ts-ignore
                 infoAddr.innerHTML = result[0].address.address_name;
-                let aaa = result[0].address.address_name;
+                window.adrr = result[0].address.address_name;
+                // setAdr(aaa);
+
+                console.log("@@@");
+                console.log(window.adrr);
+                console.log("@@@");
             });
             // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
             window.kakao.maps.event.addListener(map, 'idle', function () {
@@ -112,12 +119,13 @@ const LandAnalyzation = () => {
                 }
             }
         });
-    });
+    },[adr]);
 
     const onClick = useCallback((e) => {
         e.preventDefault();
+        console.log("aaa = ", adr);
         axios.get(
-            `http://dapi.kakao.com/v2/local/search/address.json?query=${aaa}&analyze_type=similar&page=10&size=1`,
+            `http://dapi.kakao.com/v2/local/search/address.json?query=${window.adrr}&analyze_type=similar&page=10&size=1`,
             {
                 headers: {Authorization: 'KakaoAK 50be921832a2d06f65d24b6e54ba16e5'},
             })
@@ -125,7 +133,63 @@ const LandAnalyzation = () => {
                 setData(response.data);
                 console.log(response.data);
                 // @ts-ignore
-                return document.getElementById("jsonText").innerHTML = response.data['documents'][0]['address']['address_name'];
+                document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
+                // @ts-ignore
+                document.getElementById("jsonX").innerHTML = response.data['documents'][0]['address']['x'];
+                // @ts-ignore
+                document.getElementById("jsonY").innerHTML = response.data['documents'][0]['address']['y'];
+                // @ts-ignore
+                const YoN = document.getElementById("jsonMountain").innerHTML = response.data['documents'][0]['address']['mountain_yn'];
+                // @ts-ignore
+                const main = document.getElementById("jsonMain").innerHTML = response.data['documents'][0]['address']['main_address_no'];
+                // @ts-ignore
+                const sub = document.getElementById("jsonSub").innerHTML = response.data['documents'][0]['address']['sub_address_no'];
+                // @ts-ignore
+                document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
+
+                /////////////////////////////////////////////////////////////////////
+
+
+                /////////////////////////////////////////////////////////////////////
+
+                const digits_main = main.toString().split('');
+                const arr_main = new Array(4);
+                arr_main.fill(0);
+                //digits: ['1', '2', '3']
+                //digits.length=3   i:2->1->0, j:3->2->1
+                //arr=[0,0,0,0] arr[3]=3  arr[2]=2  arr[1]=1
+                for (let j=3, i=digits_main.length-1; i>=0; i--, j--) {
+                    arr_main[j] = Number(digits_main[i]);
+                }
+                const arrStr_main = arr_main.join('');
+
+                /////////////////////////////////////////////////////////////////////
+
+                const digits_sub = sub.toString().split('');
+                const arr_sub = new Array(4);
+                arr_sub.fill(0);
+                for (let j=3, i=digits_sub.length-1; i>=0; i--, j--) {
+                    arr_sub[j] = Number(digits_sub[i]);
+                }
+                const arrStr_sub = arr_sub.join('');
+
+                /////////////////////////////////////////////////////////////////////
+
+                // @ts-ignore
+                document.getElementById("jsonFullPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
+
+                let beforeFull = response.data['documents'][0]['address']['b_code'];
+
+                console.log("@@ = ", YoN);
+                if(YoN === 'N') {
+                    beforeFull += (1 + arrStr_main + arrStr_sub);
+                } else {
+                    beforeFull += (2 + arrStr_main + arrStr_sub);
+                }
+
+                // @ts-ignore
+                const Full = document.getElementById("jsonFullPNU").innerHTML = beforeFull;
+
             });
     },[]);
 
@@ -189,9 +253,41 @@ const LandAnalyzation = () => {
                         </tr>
                         <tr>
                             <td>공시지가 : &nbsp;</td>
-                            <td><button onClick={onClick}>불러오기</button></td>
+                            <td><button onClick={onClick}>클릭</button></td>
                             {/*{data && JSON.parse(data).address_name}*/}
-                            <td><div id="jsonText"></div></td>
+                        </tr>
+                        <tr><td>&nbsp;</td></tr>
+                        <tr>
+                            <td>주소 : &nbsp;</td>
+                            <td><div id="jsonAddr" /></td>
+                        </tr>
+                        <tr>
+                            <td>산 || 일반 : &nbsp;</td>
+                            <td><div id="jsonMountain" /></td>
+                        </tr>
+                        <tr>
+                            <td>본번 : &nbsp;</td>
+                            <td><div id="jsonMain" /></td>
+                        </tr>
+                        <tr>
+                            <td>부번 : &nbsp;</td>
+                            <td><div id="jsonSub" /></td>
+                        </tr>
+                        <tr>
+                            <td>PNU : &nbsp;</td>
+                            <td><div id="jsonPNU" /></td>
+                        </tr>
+                        <tr>
+                            <td>FullPNU : &nbsp;</td>
+                            <td><div id="jsonFullPNU" /></td>
+                        </tr>
+                        <tr>
+                            <td>좌표(x) : &nbsp;</td>
+                            <td><div id="jsonX" /></td>
+                        </tr>
+                        <tr>
+                            <td>좌표(y) : &nbsp;</td>
+                            <td><div id="jsonY" /></td>
                         </tr>
                     </table>
                 </Aside>
