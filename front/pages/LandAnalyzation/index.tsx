@@ -13,8 +13,7 @@ declare global {
 const LandAnalyzation = () => {
 
     const [navCollapse, setNavCollapse] = useState(true);
-    const [adr, setAdr] = useState('');
-    const [data, setData] = useState(null);
+    const [data, setData] = useState('');
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
@@ -83,11 +82,7 @@ const LandAnalyzation = () => {
                 // @ts-ignore
                 infoAddr.innerHTML = result[0].address.address_name;
                 window.adrr = result[0].address.address_name;
-                // setAdr(aaa);
-
-                console.log("@@@");
-                console.log(window.adrr);
-                console.log("@@@");
+                setData(window.adrr);
             });
             // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
             window.kakao.maps.event.addListener(map, 'idle', function () {
@@ -119,18 +114,17 @@ const LandAnalyzation = () => {
                 }
             }
         });
-    },[adr]);
+    },[]);
 
     const onClick = useCallback((e) => {
         e.preventDefault();
-        console.log("aaa = ", adr);
         axios.get(
             `http://dapi.kakao.com/v2/local/search/address.json?query=${window.adrr}&analyze_type=similar&page=10&size=1`,
             {
                 headers: {Authorization: 'KakaoAK 50be921832a2d06f65d24b6e54ba16e5'},
             })
             .then(response => {
-                setData(response.data);
+
                 console.log(response.data);
                 // @ts-ignore
                 document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
@@ -180,12 +174,12 @@ const LandAnalyzation = () => {
 
                 let beforeFull = response.data['documents'][0]['address']['b_code'];
 
-                console.log("@@ = ", YoN);
                 if(YoN === 'N') {
                     beforeFull += (1 + arrStr_main + arrStr_sub);
                 } else {
                     beforeFull += (2 + arrStr_main + arrStr_sub);
                 }
+                /////////////////////////////////////////////////////////////////////
 
                 // @ts-ignore
                 const Full = document.getElementById("jsonFullPNU").innerHTML = beforeFull;
@@ -252,8 +246,8 @@ const LandAnalyzation = () => {
                             <td><div id="detailAddr"></div></td>
                         </tr>
                         <tr>
-                            <td>공시지가 : &nbsp;</td>
-                            <td><button onClick={onClick}>클릭</button></td>
+                            <td>선택한 땅 확인 : &nbsp;</td>
+                            <td>{data && <button onClick={onClick}>클릭</button>}</td>
                             {/*{data && JSON.parse(data).address_name}*/}
                         </tr>
                         <tr><td>&nbsp;</td></tr>
