@@ -2,9 +2,9 @@ import React from 'react';
 import loadable from '@loadable/component';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-const Main = loadable(() => import('@pages/Main'));
 const LogIn = loadable(() => import('@pages/LogIn'));
 const SignUp = loadable(() => import('@pages/SignUp'));
+const Main = loadable(() => import('@pages/Main'));
 const LandAnalyzation = loadable(() => import('@pages/LandAnalyzation'));
 
 const App = () => {
