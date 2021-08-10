@@ -70,6 +70,8 @@
     "eslint-plugin-react": "^7.22.0",
     "fork-ts-checker-webpack-plugin": "^6.1.0",
     "prettier": "^2.2.1",
+    "qs": "^6.7.0",
+    "querystring": "^0.2.0",
     "webpack": "^5.22.0",
     "webpack-dev-server": "^3.11.2"
   }

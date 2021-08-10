@@ -7,7 +7,7 @@ import fetcher from "@utils/fetcher";
 import axios from "axios";
 
 const LogIn = () => {
-    const {data, error, revalidate} = useSWR('http://localhost:8000/auth/', fetcher);
+    const {data, error, revalidate} = useSWR('http://localhost:1000/auth/', fetcher);
     console.log("@@@ = ", data);
 
     const [email, onChangeEmail] = useInput('');
@@ -19,7 +19,7 @@ const LogIn = () => {
             setLogInError(false);
             axios
                 .post(
-                    'http://localhost:8000/auth/login',
+                    'http://localhost:1000/auth/login',
                     {email, password},
                     {
                         withCredentials: true,

@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {Container, MapScreen, Nav, Toggle, Aside} from "@pages/LandAnalyzation/style";
 import {Form, Input, Label} from "@pages/style";
 import axios from "axios";
+import qs from "qs";
 
 declare global {
     interface Window {
@@ -195,40 +196,38 @@ const LandAnalyzation = () => {
     },[]);
 
     const onClick_second = useCallback((e) => {
-        e.preventDefault()
+        e.preventDefault();
         console.log("@!@!@ = ", window.pnu);
         setPnu(window.pnu);
+        console.log('!', window.pnu);
         console.log(typeof (window.pnu));
-        // axios.get(
-        //     `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D&pnu=${window.pnu}&stdrYear=2021&format=json&numOfRows=10&pageNo=1`
-        //     )
-        //     .then(response => {
-        //         console.log("second Info");
-        //         console.log(response.data);
-        //
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     });
-        const option = {
-            method: 'GET',
-            headers: {
-                "Content-type": "application/json; charset=utf-8",
-                "Access-Control-Allow-Origin": "*"
-            },
-            params: {
-                "ServiceKey" : "v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D",
-                "pnu" : "1168010300106540000",
-                "stdrYear" : "2021",
-                "format" : "json",
-                "numOfRows" : "10",
-                "pageNo" : "1",
-            }
-        }
-        fetch('http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr', option)
-            .then(response => response.json())
-            .then(json => console.log(JSON.stringify(json)))
-            .catch(error => console.log(error))
+
+        axios.get(
+            'http://localhost:1000/api/',
+            {
+                params:{
+                    pnu : window.pnu,
+                    stdrYear : "2021",
+                },
+            })
+            .then(response => {
+                console.log("second Info");
+                console.log(response.data);
+                console.log(response['data'][0].stdrMt);
+                // @ts-ignore
+                document.getElementById("regstrSeCode").innerHTML = response['data'][0].regstrSeCode;
+                // @ts-ignore
+                document.getElementById("regstrSeCodeNm").innerHTML = response['data'][0].regstrSeCodeNm;
+                // @ts-ignore
+                document.getElementById("pblntfDe").innerHTML = response['data'][0].pblntfDe;
+                // @ts-ignore
+                document.getElementById("pblntfPclnd").innerHTML = response['data'][0].pblntfPclnd;
+                // @ts-ignore
+                document.getElementById("lastUpdtDt").innerHTML = response['data'][0].lastUpdtDt;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     },[]);
 
     return (
