@@ -188,23 +188,47 @@ const LandAnalyzation = () => {
 
                 // @ts-ignore
                 const Full = document.getElementById("jsonFullPNU").innerHTML = beforeFull;
-
+            })
+            .catch((error) => {
+                console.log(error);
             });
     },[]);
 
     const onClick_second = useCallback((e) => {
-        e.preventDefault();
+        e.preventDefault()
         console.log("@!@!@ = ", window.pnu);
         setPnu(window.pnu);
-        axios.get(
-            `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D&pnu=${window.pnu}&stdrYear=2021&format=json&numOfRows=10&pageNo=1`,
-            )
-            .then(response => {
-                setSecondInfo(response.data);
-                console.log("second Info");
-                console.log(response.data);
-                console.log(secondInfo);
-            });
+        console.log(typeof (window.pnu));
+        // axios.get(
+        //     `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D&pnu=${window.pnu}&stdrYear=2021&format=json&numOfRows=10&pageNo=1`
+        //     )
+        //     .then(response => {
+        //         console.log("second Info");
+        //         console.log(response.data);
+        //
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
+        const option = {
+            method: 'GET',
+            headers: {
+                "Content-type": "application/json; charset=utf-8",
+                "Access-Control-Allow-Origin": "*"
+            },
+            params: {
+                "ServiceKey" : "v8rKvSqtRv09ZmCkAnQKqgtD%2FOtIUTaH8pbgkEyencYHJ6lYuw9nteY5M8Xykaex6%2FYgDKcWEzg3TY2rFgeuKg%3D%3D",
+                "pnu" : "1168010300106540000",
+                "stdrYear" : "2021",
+                "format" : "json",
+                "numOfRows" : "10",
+                "pageNo" : "1",
+            }
+        }
+        fetch('http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr', option)
+            .then(response => response.json())
+            .then(json => console.log(JSON.stringify(json)))
+            .catch(error => console.log(error))
     },[]);
 
     return (
