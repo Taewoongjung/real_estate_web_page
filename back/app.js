@@ -13,9 +13,10 @@ dotenv.config();
 const { sequelize } = require('./models');
 const passportConfig = require("./passport");
 const authRouter = require("./routes/auth");
+const apiRouter = require("./routes/api");
 
 const app = express();
-app.set("PORT", process.env.PORT || 8000);
+app.set("PORT", process.env.PORT || 1000);
 sequelize
     .sync()
     .then(() => {
@@ -34,7 +35,7 @@ if (prod) {
     app.use(morgan("dev"));
     app.use(
         cors({
-            origin: true,
+            origin: '*',
             credentials: true,
         })
     );
@@ -61,6 +62,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/auth", authRouter);
+app.use("/api", apiRouter);
 app.get("*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
