@@ -279,92 +279,95 @@ const LandAnalyzation = () => {
                 </Nav>
                 <MapScreen id="map" />
                 <Aside>
-                    <table>
-                        <tr>
-                            <td>시,구,동 : &nbsp;</td>
-                            <td><div id="centerAddr"></div></td>
-                        </tr>
-                        <tr>
-                            <td>주소(도로명) : &nbsp;</td>
-                            <td><div id="detailAddr"></div></td>
-                        </tr>
-                        <tr>
-                            <td>선택한 땅 확인 : &nbsp;</td>
-                            <td>{data && <button onClick={onClick_first}>클릭</button>}</td>
-                            <td>{responsedData && <button onClick={onClick_second}>공시지가 확인</button>}</td>
-                        </tr>
-                        <tr><td>&nbsp;</td></tr>
-                        <tr>
-                            <td>주소 : &nbsp;</td>
-                            <td><div id="jsonAddr" /></td>
-                        </tr>
-                        <tr>
-                            <td>산(N)일반(Y) : &nbsp;</td>
-                            <td><div id="jsonMountain" /></td>
-                        </tr>
-                        <tr>
-                            <td>본번 : &nbsp;</td>
-                            <td><div id="jsonMain" /></td>
-                        </tr>
-                        <tr>
-                            <td>부번 : &nbsp;</td>
-                            <td><div id="jsonSub" /></td>
-                        </tr>
-                        <tr>
-                            <td>PNU : &nbsp;</td>
-                            <td><div id="jsonPNU" /></td>
-                        </tr>
-                        <tr>
-                            <td>FullPNU : &nbsp;</td>
-                            <td><div id="jsonFullPNU" /></td>
-                        </tr>
-                        <tr>
-                            <td>좌표(x) : &nbsp;</td>
-                            <td><div id="jsonX" /></td>
-                        </tr>
-                        <tr>
-                            <td>좌표(y) : &nbsp;</td>
-                            <td><div id="jsonY" /></td>
-                        </tr>
-                        <tr><td id="FromNowOnSecondInformation">&nbsp;</td></tr>
-                        {getPnu &&
-                        <tr>
-                            <td>특수지구분명 : &nbsp;</td>
-                            <td><div id="regstrSeCode" /></td>
-                        </tr>
-                        }
-                        {getPnu &&
-                        <tr>
-                            <td>특수지구분코드 : &nbsp;</td>
-                            <td>
-                                <div id="regstrSeCodeNm"/>
-                            </td>
-                        </tr>
-                        }
-                        {getPnu &&
-                        <tr>
-                            <td>공시 일자 : &nbsp;</td>
-                            <td>
-                                <div id="pblntfDe"/>
-                            </td>
-                        </tr>
-                        }
-                        {getPnu &&
-                        <tr>
-                            <td>공시지가 : &nbsp;</td>
-                            <td>
-                                <div id="pblntfPclnd"/>
-                            </td>
-                        </tr>
-                        }
-                        {getPnu &&
-                        <tr>
-                            <td>데이터기준일자 : &nbsp;</td>
-                            <td>
-                                <div id="lastUpdtDt"/>
-                            </td>
-                        </tr>
-                        }
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <td><div id="centerAddr"></div></td>
+                                <td>&nbsp;&nbsp;중심 화면</td>
+                            </tr>
+                            <tr>
+                                <td>주소(도로명) : &nbsp;</td>
+                                <td><div id="detailAddr"></div></td>
+                            </tr>
+                            <tr>
+                                <td colSpan={2} align="center">{data && <button onClick={onClick_first}>선택한 땅 확인</button>}</td>
+                            </tr>
+                            <tr><td>&nbsp;</td></tr>
+                            <tr>
+                                <td>주소 : &nbsp;</td>
+                                <td><div id="jsonAddr" /></td>
+                            </tr>
+                            <tr>
+                                <td>산(N)일반(Y) : &nbsp;</td>
+                                <td><div id="jsonMountain" /></td>
+                            </tr>
+                            <tr>
+                                <td>본번 : &nbsp;</td>
+                                <td><div id="jsonMain" /></td>
+                            </tr>
+                            <tr>
+                                <td>부번 : &nbsp;</td>
+                                <td><div id="jsonSub" /></td>
+                            </tr>
+                            <tr>
+                                <td>PNU : &nbsp;</td>
+                                <td><div id="jsonPNU" /></td>
+                            </tr>
+                            <tr>
+                                <td>FullPNU : &nbsp;</td>
+                                <td><div id="jsonFullPNU" /></td>
+                            </tr>
+                            <tr>
+                                <td>좌표(x) : &nbsp;</td>
+                                <td><div id="jsonX" /></td>
+                            </tr>
+                            <tr>
+                                <td>좌표(y) : &nbsp;</td>
+                                <td><div id="jsonY" /></td>
+                            </tr>
+
+                            <tr>
+                                <td colSpan={2} align="center">{responsedData && <button onClick={onClick_second}>공시지가 확인</button>}</td>
+                            </tr>
+                            {getPnu &&
+                            <tr>
+                                <td>특수지구분명 : &nbsp;</td>
+                                <td><div id="regstrSeCode" /></td>
+                            </tr>
+                            }
+                            {getPnu &&
+                            <tr>
+                                <td>특수지구분코드 : &nbsp;</td>
+                                <td>
+                                    <div id="regstrSeCodeNm"/>
+                                </td>
+                            </tr>
+                            }
+                            {getPnu &&
+                            <tr>
+                                <td>공시 일자 : &nbsp;</td>
+                                <td>
+                                    <div id="pblntfDe"/>
+                                </td>
+                            </tr>
+                            }
+                            {getPnu &&
+                            <tr>
+                                <td>공시지가 : &nbsp;</td>
+                                <td>
+                                    <div id="pblntfPclnd"/>
+                                </td>
+                            </tr>
+                            }
+                            {getPnu &&
+                            <tr>
+                                <td>데이터기준일자 : &nbsp;</td>
+                                <td>
+                                    <div id="lastUpdtDt"/>
+                                </td>
+                            </tr>
+                            }
+                        </thead>
                     </table>
                 </Aside>
             </Container>
