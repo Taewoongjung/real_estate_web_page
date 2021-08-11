@@ -1,8 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Container, MapScreen, Nav, Toggle, Aside} from "@pages/LandAnalyzation/style";
+import {Container, MapScreen, Nav, Toggle, Aside, CenterAxis} from "@pages/LandAnalyzation/style";
 import {Form, Input, Label} from "@pages/style";
 import axios from "axios";
-import qs from "qs";
 
 declare global {
     interface Window {
@@ -13,9 +12,8 @@ declare global {
 }
 
 const LandAnalyzation = () => {
-
     const [navCollapse, setNavCollapse] = useState(true);
-    const [data, setData] = useState('');
+    const [getData, setData] = useState('');
     const [responsedData, setResponsedData] = useState('');
     const [getPnu, setPnu] = useState('');
     const [secondInfo, setSecondInfo] = useState('');
@@ -72,7 +70,6 @@ const LandAnalyzation = () => {
                     var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].address.address_name + '</div>' : '';
                     detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
                     var content = '<div class="bAddr">' +
-                        '<span class="title">법정동 주소정보</span>' +
                         detailAddr +
                         '</div>';
                     // 마커를 클릭한 위치에 표시합니다
@@ -139,17 +136,15 @@ const LandAnalyzation = () => {
                 // @ts-ignore
                 document.getElementById("jsonY").innerHTML = response.data['documents'][0]['address']['y'];
                 // @ts-ignore
-                const YoN = document.getElementById("jsonMountain").innerHTML = response.data['documents'][0]['address']['mountain_yn'];
-                // @ts-ignore
                 const main = document.getElementById("jsonMain").innerHTML = response.data['documents'][0]['address']['main_address_no'];
                 // @ts-ignore
                 const sub = document.getElementById("jsonSub").innerHTML = response.data['documents'][0]['address']['sub_address_no'];
                 // @ts-ignore
                 document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
 
-
                 /////////////////////////////////////////////////////////////////////
 
+                const YoN = response.data['documents'][0]['address']['mountain_yn'];
                 const digits_main = main.toString().split('');
                 const arr_main = new Array(4);
                 arr_main.fill(0);
@@ -279,65 +274,57 @@ const LandAnalyzation = () => {
                 </Nav>
                 <MapScreen id="map" />
                 <Aside>
-                    <table className="table table-bordered">
+                    <table className="table table-hover">
                         <thead>
                             <tr>
-                                <td><div id="centerAddr"></div></td>
-                                <td>&nbsp;&nbsp;중심 화면</td>
+                                <td colSpan={2} align="center">중심 화면</td>
                             </tr>
                             <tr>
-                                <td>주소(도로명) : &nbsp;</td>
+                                <td colSpan={2} align="center"><CenterAxis id="centerAddr" /></td>
+                            </tr>
+                            <tr>
+                                <td>주소(도로명):</td>
                                 <td><div id="detailAddr"></div></td>
                             </tr>
                             <tr>
-                                <td colSpan={2} align="center">{data && <button onClick={onClick_first}>선택한 땅 확인</button>}</td>
+                                <td colSpan={2} align="center">{getData && <button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button>}</td>
                             </tr>
-                            <tr><td>&nbsp;</td></tr>
+                            <tr><td colSpan={2}>&nbsp;</td></tr>
                             <tr>
-                                <td>주소 : &nbsp;</td>
+                                <td>주소:</td>
                                 <td><div id="jsonAddr" /></td>
                             </tr>
                             <tr>
-                                <td>산(N)일반(Y) : &nbsp;</td>
-                                <td><div id="jsonMountain" /></td>
-                            </tr>
-                            <tr>
-                                <td>본번 : &nbsp;</td>
+                                <td>본번:</td>
                                 <td><div id="jsonMain" /></td>
                             </tr>
                             <tr>
-                                <td>부번 : &nbsp;</td>
+                                <td>부번:</td>
                                 <td><div id="jsonSub" /></td>
                             </tr>
                             <tr>
-                                <td>PNU : &nbsp;</td>
+                                <td>PNU:</td>
                                 <td><div id="jsonPNU" /></td>
                             </tr>
                             <tr>
-                                <td>FullPNU : &nbsp;</td>
+                                <td>FullPNU:</td>
                                 <td><div id="jsonFullPNU" /></td>
                             </tr>
                             <tr>
-                                <td>좌표(x) : &nbsp;</td>
+                                <td>좌표(x):</td>
                                 <td><div id="jsonX" /></td>
                             </tr>
                             <tr>
-                                <td>좌표(y) : &nbsp;</td>
+                                <td>좌표(y):</td>
                                 <td><div id="jsonY" /></td>
                             </tr>
 
                             <tr>
-                                <td colSpan={2} align="center">{responsedData && <button onClick={onClick_second}>공시지가 확인</button>}</td>
+                                <td colSpan={2} align="center">{responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}</td>
                             </tr>
                             {getPnu &&
                             <tr>
-                                <td>특수지구분명 : &nbsp;</td>
-                                <td><div id="regstrSeCode" /></td>
-                            </tr>
-                            }
-                            {getPnu &&
-                            <tr>
-                                <td>특수지구분코드 : &nbsp;</td>
+                                <td>특수지구분명:</td>
                                 <td>
                                     <div id="regstrSeCodeNm"/>
                                 </td>
@@ -345,7 +332,13 @@ const LandAnalyzation = () => {
                             }
                             {getPnu &&
                             <tr>
-                                <td>공시 일자 : &nbsp;</td>
+                                <td>특수지구코드:</td>
+                                <td><div id="regstrSeCode" /></td>
+                            </tr>
+                            }
+                            {getPnu &&
+                            <tr>
+                                <td>공시 일자:</td>
                                 <td>
                                     <div id="pblntfDe"/>
                                 </td>
@@ -353,7 +346,7 @@ const LandAnalyzation = () => {
                             }
                             {getPnu &&
                             <tr>
-                                <td>공시지가 : &nbsp;</td>
+                                <td>공시지가:</td>
                                 <td>
                                     <div id="pblntfPclnd"/>
                                 </td>
@@ -361,7 +354,7 @@ const LandAnalyzation = () => {
                             }
                             {getPnu &&
                             <tr>
-                                <td>데이터기준일자 : &nbsp;</td>
+                                <td>데이터기준일자:</td>
                                 <td>
                                     <div id="lastUpdtDt"/>
                                 </td>

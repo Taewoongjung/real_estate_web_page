@@ -37,6 +37,10 @@ export const Aside = styled.div`
   float: left;
 `;
 
+export const CenterAxis = styled.h3`
+  font : italic 1.3em TmonMonsori bold;
+`;
+
 export const Toggle = styled.li<{ collapse: boolean }>`
     ${({ collapse }) =>
     collapse &&
