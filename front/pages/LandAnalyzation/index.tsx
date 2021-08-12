@@ -16,7 +16,8 @@ const LandAnalyzation = () => {
     const [getData, setData] = useState('');
     const [responsedData, setResponsedData] = useState('');
     const [getPnu, setPnu] = useState('');
-    const [secondInfo, setSecondInfo] = useState('');
+    const [mapInfo, setMapInfo] = useState(Object);
+    const [mapType, setMapType] = useState(Object);
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
@@ -29,7 +30,56 @@ const LandAnalyzation = () => {
             level: 7
         };
 
-        let map = new window.kakao.maps.Map(container, options);
+        var map = new window.kakao.maps.Map(container, options);
+        setMapInfo(map);
+
+        // 지도 타입 정보를 가지고 있을 객체입니다
+        // map.addOverlayMapTypeId 함수로 추가된 지도 타입은
+        // 가장 나중에 추가된 지도 타입이 가장 앞에 표시됩니다
+        // 이 예제에서는 지도 타입을 추가할 때 지적편집도, 지형정보, 교통정보, 자전거도로 정보 순으로 추가하므로
+        // 자전거 도로 정보가 가장 앞에 표시됩니다
+        var mapTypes = {
+            terrain : window.kakao.maps.MapTypeId.TERRAIN,
+            traffic :  window.kakao.maps.MapTypeId.TRAFFIC,
+            bicycle : window.kakao.maps.MapTypeId.BICYCLE,
+            useDistrict : window.kakao.maps.MapTypeId.USE_DISTRICT
+        };
+
+        // 체크 박스를 선택하면 호출되는 함수입니다
+        function setOverlayMapTypeId() {
+            // @ts-ignore
+            var chkTerrain = document.getElementById('chkTerrain'),
+                chkTraffic = document.getElementById('chkTraffic'),
+                chkBicycle = document.getElementById('chkBicycle'),
+                chkUseDistrict = document.getElementById('chkUseDistrict');
+
+            // 지도 타입을 제거합니다
+            for (var type in mapTypes) {
+                // @ts-ignore
+                map.removeOverlayMapTypeId(mapTypes[type]);
+            }
+
+            // 지적편집도정보 체크박스가 체크되어있으면 지도에 지적편집도정보 지도타입을 추가합니다
+
+            if (chkUseDistrict.checked) {
+                map.addOverlayMapTypeId(mapTypes.useDistrict);
+            }
+
+            // 지형정보 체크박스가 체크되어있으면 지도에 지형정보 지도타입을 추가합니다
+            if (chkTerrain.checked) {
+                map.addOverlayMapTypeId(mapTypes.terrain);
+            }
+
+            // 교통정보 체크박스가 체크되어있으면 지도에 교통정보 지도타입을 추가합니다
+            if (chkTraffic.checked) {
+                map.addOverlayMapTypeId(mapTypes.traffic);
+            }
+
+            // 자전거도로정보 체크박스가 체크되어있으면 지도에 자전거도로정보 지도타입을 추가합니다
+            if (chkBicycle.checked) {
+                map.addOverlayMapTypeId(mapTypes.bicycle);
+            }
+        }
 
         // 지도 중심 좌표 변화 이벤트를 등록한다
         window.kakao.maps.event.addListener(map, 'center_changed', function () {
@@ -69,9 +119,9 @@ const LandAnalyzation = () => {
                 if (status === window.kakao.maps.services.Status.OK) {
                     var detailAddr = !!result[0].road_address ? '<div>도로명주소 : ' + result[0].address.address_name + '</div>' : '';
                     detailAddr += '<div>지번 주소 : ' + result[0].address.address_name + '</div>';
-                    var content = '<div class="bAddr">' +
+                    var content = '<MarkerText class="bAddr">' +
                         detailAddr +
-                        '</div>';
+                        '</MarkerText>';
                     // 마커를 클릭한 위치에 표시합니다
 
                     marker.setPosition(mouseEvent.latLng);
@@ -197,7 +247,7 @@ const LandAnalyzation = () => {
         console.log('!', window.pnu);
         console.log(typeof (window.pnu));
 
-        axios.get(
+        const axiosRequest = axios.get(
             'http://localhost:1000/api/',
             {
                 params:{
@@ -320,7 +370,9 @@ const LandAnalyzation = () => {
                             </tr>
 
                             <tr>
-                                <td colSpan={2} align="center">{responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}</td>
+                                <td colSpan={2} align="center">
+                                    {responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}
+                                </td>
                             </tr>
                             {getPnu &&
                             <tr>
@@ -362,6 +414,13 @@ const LandAnalyzation = () => {
                             }
                         </thead>
                     </table>
+                    <div id='chkTerrain'>
+
+                    </div>
+                    {/*<input type="checkbox" id="chkUseDistrict" onClick="setOverlayMapTypeId()" />*/}
+                    {/*<input type="checkbox" id="chkTerrain" onClick="setOverlayMapTypeId()" />*/}
+                    {/*<input type="checkbox" id="chkTraffic" onClick="setOverlayMapTypeId()" />*/}
+                    {/*<input type="checkbox" id="chkBicycle" onClick={setOverlayMapTypeId()}" />*/}
                 </Aside>
             </Container>
         </div>

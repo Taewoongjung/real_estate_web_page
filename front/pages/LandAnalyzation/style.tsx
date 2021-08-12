@@ -41,6 +41,13 @@ export const CenterAxis = styled.h3`
   font : italic 1.3em TmonMonsori bold;
 `;
 
+export const MarkerText = styled.div`
+  padding:5px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+`;
+
 export const Toggle = styled.li<{ collapse: boolean }>`
     ${({ collapse }) =>
     collapse &&
