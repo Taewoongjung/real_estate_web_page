@@ -35,7 +35,7 @@ if (prod) {
     app.use(morgan("dev"));
     app.use(
         cors({
-            origin: '*',
+            origin: true,
             credentials: true,
         })
     );
