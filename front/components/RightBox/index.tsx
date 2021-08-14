@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {Aside, CenterAxis} from "@pages/LandAnalyzation/style";
+import {Aside, CenterAxis} from "./style";
 
 const RightBox:FC = () => {
 
@@ -91,4 +91,6 @@ const RightBox:FC = () => {
             </div>
         </Aside>
     )
-}
+};
+
+export default RightBox;

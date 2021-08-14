@@ -1,17 +1,20 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  width: 100%;
-  min-height: 300px;
-  margin: 0 auto;
+  height: 100vh;
 `;
 
 export const Wrap = styled.div`
-  color: #FFF;
-  width: 900px;
+  display: grid;
+  //height: 100vh;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'header'
+                       'center';
 `;
 
 export const Nav = styled.nav`
+  grid-area: header;
   border: 1px solid #999;
   margin: 5px;
   padding: 10px;
@@ -21,12 +24,13 @@ export const Nav = styled.nav`
 `;
 
 export const MapScreen = styled.div`
+  grid-area: center;
   border: 1px solid #999;
   margin: 5px;
   padding: 10px;
   background-color: green;
-  width: 1400px;
-  height: 900px;
+  width: 99%;
+  height: 920px;
 `;
 
 export const Toggle = styled.li<{ collapse: boolean }>`
