@@ -12,7 +12,7 @@ const Main = () => {
             <Container>
                 <TopNav />
                 <KaKaoMap />
-                <RightBox/>
+                {/*<RightBox/>*/}
             </Container>
         </Wrap>
     )

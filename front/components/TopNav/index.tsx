@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {Nav, Toggle} from "@pages/LandAnalyzation/style";
+import {Nav, Toggle} from "./style";
 
 const TopNav:FC = () => {
     const [navCollapse, setNavCollapse] = useState(true);

@@ -4,9 +4,9 @@ export const Nav = styled.nav`
   border: 1px solid #999;
   margin: 5px;
   padding: 10px;
-  background-color: goldenrod;
-  width: 600px;
-  height: 70px
+  width: 1000px;
+  height: 70px;
+  border-color: white;
 `;
 
 export const Toggle = styled.li<{ collapse: boolean }>`
