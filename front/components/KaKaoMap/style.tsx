@@ -9,7 +9,7 @@ export const MapScreen = styled.div`
   height: 900px;
 `;
 
-export const Wrap = styled.div`
-  color: #FFF;
-  width: 900px;
+export const CenterDiv = styled.div`
+  z-index: 1113;
+  color: red;
 `;

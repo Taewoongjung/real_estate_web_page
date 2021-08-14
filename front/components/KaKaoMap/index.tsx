@@ -1,6 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {MapScreen} from "@pages/Main/style";
-import {Wrap} from "./style";
+import {CenterDiv} from "@components/KaKaoMap/style";
 
 
 const KaKaoMap: FC = () => {
@@ -84,7 +84,8 @@ const KaKaoMap: FC = () => {
             // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
             function displayCenterInfo(result: any, status: any) {
                 if (status === window.kakao.maps.services.Status.OK) {
-                    var infoDiv = document.getElementById('centerAddr');
+                    const infoDiv = document.getElementById('centerAddr');
+                    console.log("@@!! = ", infoDiv);
                     for(var i = 0; i < result.length; i++) {
                         // 행정동의 region_type 값은 'H' 이므로
                         if (result[i].region_type === 'H') {
@@ -99,6 +100,7 @@ const KaKaoMap: FC = () => {
 
     return (
         <>
+            <CenterDiv id="centerAddr"></CenterDiv>
             <MapScreen id="map" />
         </>
     );
