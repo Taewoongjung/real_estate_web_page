@@ -16,3 +16,8 @@ export const CenterDiv = styled.div`
   //z-index: 3;
   //cp
 `;
+
+
+export const ButtonFir = styled.button`
+
+`;

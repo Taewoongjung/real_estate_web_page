@@ -1,18 +1,76 @@
-import React, {FC, useEffect} from 'react';
-import {MapScreen} from "./style";
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import {ButtonFir, MapScreen} from "./style";
 import RightBox from "@components/RightBox";
 import {Aside, CenterAxis} from "@components/RightBox/style";
 
+declare global {
+    interface Window {
+        kakao: any;
+        adrr: string;
+        pnu: string;
+    }
+}
 
 const KaKaoMap: FC = () => {
-        useEffect(() => {
-            let container = document.getElementById('map');
+    const [getTrracficMap, setTrraficMap] = useState(false);
+    const [getRoadMap, setRoadMap] = useState(false);
+    const [getTerrainMap, setTerrainMap] = useState(false);
+    const [getDistrictMap, setDistrictMap] = useState(false);
+
+    const aMap = useRef(null);
+
+    const onClickTrafficMap = useCallback((e) => { // 교통정보 지도타입
+        e.preventDefault();
+        setTrraficMap(prev => !prev);
+        console.log("getTrracficMap = ", getTrracficMap);
+    },[getTrracficMap]);
+
+    const onClickRoadMap = useCallback((e) => { // 로드뷰 도로정보 지도타입
+        e.preventDefault();
+        setRoadMap(prev => !prev);
+        console.log("getRoadMap = ", getRoadMap);
+    },[getRoadMap]);
+
+    const onClickTerrainMap = useCallback((e) => {
+        e.preventDefault();
+        setTerrainMap(prev => !prev);
+        console.log("getTerrainMap = ", getTerrainMap);
+    },[getTerrainMap]);
+
+    const onCLickDistrictMap = useCallback((e) => {
+        e.preventDefault();
+        setDistrictMap(prev => !prev);
+        console.log("getDistrictMap = ", getDistrictMap);
+    },[getDistrictMap]);
+
+    useEffect(()=> {
             let options = {
                 center: new window.kakao.maps.LatLng(37.531427643208275, 127.0619991033721),
                 level: 7
             };
+            let map = new window.kakao.maps.Map(aMap.current, options);
+            // // 지도에 추가된 지도타입정보를 가지고 있을 변수입니다
+            var currentTypeId: any;
+            var changeMaptype;
 
-            let map = new window.kakao.maps.Map(container, options);
+            console.log("getRoadMap 데이터 = ", getTrracficMap);
+
+            if (getTrracficMap) {  // 교통정보 지도타입
+                changeMaptype = window.kakao.maps.MapTypeId.TRAFFIC;
+                map.addOverlayMapTypeId(changeMaptype);
+            }
+            else if (getRoadMap) { // 로드뷰 도로정보 지도타입
+                changeMaptype = window.kakao.maps.MapTypeId.ROADVIEW;
+                map.addOverlayMapTypeId(changeMaptype);
+            }
+            else if (getTerrainMap) { // 지형정보 지도타입
+                changeMaptype = window.kakao.maps.MapTypeId.TERRAIN;
+                map.addOverlayMapTypeId(changeMaptype);
+            }
+            else if (getDistrictMap) { // 지적편집도 지도타입
+                changeMaptype = window.kakao.maps.MapTypeId.USE_DISTRICT;
+                map.addOverlayMapTypeId(changeMaptype);
+            }
 
             // 지도 중심 좌표 변화 이벤트를 등록한다
             window.kakao.maps.event.addListener(map, 'center_changed', function () {
@@ -70,13 +128,11 @@ const KaKaoMap: FC = () => {
                 })
             })
 
-            window.kakao.maps.event.addListener(map, 'click', function(mouseEvent: any) {
-                console.log('aa');
-                // console.log(Aside.__emotion_styles);
-                console.log(Aside['__emotion_styles'][1]['styles']);
-            });
-
-
+            // window.kakao.maps.event.addListener(map, 'click', function(mouseEvent: any) {
+            //     console.log('aa');
+            //     // console.log(Aside.__emotion_styles);
+            //     console.log(Aside['__emotion_styles'][1]['styles']);
+            // });
 
             // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
             window.kakao.maps.event.addListener(map, 'idle', function() {
@@ -105,12 +161,16 @@ const KaKaoMap: FC = () => {
                     }
                 }
             }
-        });
+    },[getTrracficMap, getRoadMap, getTerrainMap, getDistrictMap]);
 
     return (
         <>
-            {/*<CenterDiv id="centerAddr"></CenterDiv>*/}
-            <MapScreen id="map" />
+            <button onClick={onClickTrafficMap}>교통정보</button>
+            <button onClick={onClickRoadMap}>도로정보</button>
+            <button onClick={onClickTerrainMap}>지형정보</button>
+            <button onClick={onCLickDistrictMap}>지적편집도</button>
+
+            <MapScreen id="map" ref={aMap} />
             <div>
             <Aside>
                 <table className="table table-hover">

@@ -7,7 +7,7 @@ import fetcher from "@utils/fetcher";
 import axios from "axios";
 
 const SignUp = () => {
-    const {data, error, revalidate} = useSWR('http://localhost:1000/auth/', fetcher);
+    const {data, error, revalidate} = useSWR('http://localhost:1010/auth/', fetcher);
     console.log("!!! = ", data);
     const [email, onChangeEmail] = useInput('');
     const [name, onChangeName] = useInput('');
@@ -35,7 +35,7 @@ const SignUp = () => {
             console.log('회원가입');
             setSignUpError(''); // 비동기 요청 전 초기화
             setSignUpSuccess(false); // 비동기 요청 전 초기화
-            axios.post('http://localhost:1000/auth/signup', {
+            axios.post('http://localhost:1010/auth/signup', {
                 email,
                 name,
                 nick,

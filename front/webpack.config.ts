@@ -71,11 +71,11 @@ const config: webpack.Configuration = {
     },
     devServer: {
         historyApiFallback: true, // react router
-        port: 7000,
+        port: 7070,
         publicPath: '/dist/',
         proxy: {
             '*': {
-                target: 'http://localhost:1000',
+                target: 'http://localhost:1010',
                 changeOrigin: true,
             },
         },
