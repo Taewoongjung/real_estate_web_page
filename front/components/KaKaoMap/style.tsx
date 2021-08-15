@@ -18,6 +18,20 @@ export const CenterDiv = styled.div`
 `;
 
 
-export const ButtonFir = styled.button`
+export const Aside = styled.div<{zIndex:any}>`
+  position: relative;
+  float: right;
+  border: 1px solid #999;
+  width: 300px;
+  height: 900px;
+  background-color: aliceblue;
+  z-index:${(props) => props.zIndex};
+`;
 
+export const CenterAxis = styled.h3`
+  font : italic 1.3em TmonMonsori bold;
+`;
+
+export const CancelBtn = styled.button`
+  float: right;
 `;

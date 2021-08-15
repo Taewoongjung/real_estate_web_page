@@ -1,7 +1,7 @@
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {ButtonFir, MapScreen} from "./style";
+import {Aside, CancelBtn, CenterAxis, MapScreen} from "./style";
 import RightBox from "@components/RightBox";
-import {Aside, CenterAxis} from "@components/RightBox/style";
+import axios from "axios";
 
 declare global {
     interface Window {
@@ -16,6 +16,11 @@ const KaKaoMap: FC = () => {
     const [getRoadMap, setRoadMap] = useState(false);
     const [getTerrainMap, setTerrainMap] = useState(false);
     const [getDistrictMap, setDistrictMap] = useState(false);
+    const [zIndex, setzIndex] = useState(0);
+
+    const [getData, setData] = useState('');
+    const [responsedData, setResponsedData] = useState('');
+    const [getPnu, setPnu] = useState('');
 
     const aMap = useRef(null);
 
@@ -125,14 +130,18 @@ const KaKaoMap: FC = () => {
                         infowindow.setContent(content);
                         infowindow.open(map, marker);
                     }
+                    var infoAddr = document.getElementById('detailAddr');
+                    // @ts-ignore
+                    infoAddr.innerHTML = result[0].address.address_name;
+                    window.adrr = result[0].address.address_name;
+                    setData(window.adrr);
                 })
             })
 
-            // window.kakao.maps.event.addListener(map, 'click', function(mouseEvent: any) {
-            //     console.log('aa');
-            //     // console.log(Aside.__emotion_styles);
-            //     console.log(Aside['__emotion_styles'][1]['styles']);
-            // });
+            window.kakao.maps.event.addListener(map, 'click', function(mouseEvent: any) {
+                console.log('Map clicked');
+                setzIndex(3);
+            });
 
             // 중심 좌표나 확대 수준이 변경됐을 때 지도 중심 좌표에 대한 주소 정보를 표시하도록 이벤트를 등록합니다
             window.kakao.maps.event.addListener(map, 'idle', function() {
@@ -163,6 +172,113 @@ const KaKaoMap: FC = () => {
             }
     },[getTrracficMap, getRoadMap, getTerrainMap, getDistrictMap]);
 
+    const onClickCancelBtn = () => {
+        setzIndex(0);
+    }
+    const onClick_first = useCallback((e) => {
+        e.preventDefault();
+        axios.get(
+            `http://dapi.kakao.com/v2/local/search/address.json?query=${window.adrr}&analyze_type=similar&page=10&size=1`,
+            {
+                headers: {Authorization: 'KakaoAK 50be921832a2d06f65d24b6e54ba16e5'},
+            })
+            .then(response => {
+                setResponsedData(response.data);
+                console.log("first Info");
+                console.log(response.data);
+                // @ts-ignore
+                document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
+                // @ts-ignore
+                document.getElementById("jsonX").innerHTML = response.data['documents'][0]['address']['x'];
+                // @ts-ignore
+                document.getElementById("jsonY").innerHTML = response.data['documents'][0]['address']['y'];
+                // @ts-ignore
+                const main = document.getElementById("jsonMain").innerHTML = response.data['documents'][0]['address']['main_address_no'];
+                // @ts-ignore
+                const sub = document.getElementById("jsonSub").innerHTML = response.data['documents'][0]['address']['sub_address_no'];
+                /////////////////////////////////////////////////////////////////////
+
+                const YoN = response.data['documents'][0]['address']['mountain_yn'];
+                const digits_main = main.toString().split('');
+                const arr_main = new Array(4);
+                arr_main.fill(0);
+                //digits: ['1', '2', '3']
+                //digits.length=3   i:2->1->0, j:3->2->1
+                //arr=[0,0,0,0] arr[3]=3  arr[2]=2  arr[1]=1
+                for (let j=3, i=digits_main.length-1; i>=0; i--, j--) {
+                    arr_main[j] = Number(digits_main[i]);
+                }
+                const arrStr_main = arr_main.join('');
+
+                /////////////////////////////////////////////////////////////////////
+
+                const digits_sub = sub.toString().split('');
+                const arr_sub = new Array(4);
+                arr_sub.fill(0);
+                for (let j=3, i=digits_sub.length-1; i>=0; i--, j--) {
+                    arr_sub[j] = Number(digits_sub[i]);
+                }
+                const arrStr_sub = arr_sub.join('');
+
+                /////////////////////////////////////////////////////////////////////
+
+                // @ts-ignore
+                document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
+
+                let beforeFull = response.data['documents'][0]['address']['b_code'];
+
+                if(YoN === 'N') {
+                    beforeFull += (1 + arrStr_main + arrStr_sub);
+                    window.pnu = beforeFull;
+                } else {
+                    beforeFull += (2 + arrStr_main + arrStr_sub);
+                    window.pnu = beforeFull;
+                }
+                /////////////////////////////////////////////////////////////////////
+
+                // @ts-ignore
+                const Full = document.getElementById("jsonFullPNU").innerHTML = beforeFull;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },[]);
+
+    const onClick_second = useCallback((e) => {
+        e.preventDefault();
+        console.log("got PNU = ", window.pnu);
+        setPnu(window.pnu);
+        console.log('!', window.pnu);
+        console.log(typeof (window.pnu));
+
+        const axiosRequest = axios.get(
+            'http://localhost:1010/api/',
+            {
+                params:{
+                    pnu : window.pnu,
+                    stdrYear : "2021",
+                },
+            })
+            .then(response => {
+                console.log("second Info");
+                console.log(response.data);
+                console.log(response['data'][0].stdrMt);
+                // @ts-ignore
+                document.getElementById("regstrSeCode").innerHTML = response['data'][0].regstrSeCode;
+                // @ts-ignore
+                document.getElementById("regstrSeCodeNm").innerHTML = response['data'][0].regstrSeCodeNm;
+                // @ts-ignore
+                document.getElementById("pblntfDe").innerHTML = response['data'][0].pblntfDe;
+                // @ts-ignore
+                document.getElementById("pblntfPclnd").innerHTML = response['data'][0].pblntfPclnd;
+                // @ts-ignore
+                document.getElementById("lastUpdtDt").innerHTML = response['data'][0].lastUpdtDt;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },[]);
+
     return (
         <>
             <button onClick={onClickTrafficMap}>교통정보</button>
@@ -172,7 +288,10 @@ const KaKaoMap: FC = () => {
 
             <MapScreen id="map" ref={aMap} />
             <div>
-            <Aside>
+            <Aside zIndex={zIndex}>
+                <CancelBtn className="btn btn-default" onClick={onClickCancelBtn}>
+                    <div className="glyphicon glyphicon-remove" />
+                </CancelBtn>
                 <table className="table table-hover">
                     <thead>
                     <tr>
@@ -187,7 +306,7 @@ const KaKaoMap: FC = () => {
                     </tr>
                     <tr>
                         {/*<td colSpan={2} align="center">{getData && <button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button>}</td>*/}
-                        {/*<td colSpan={2} align="center"><button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button></td>*/}
+                        <td colSpan={2} align="center"><button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button></td>
                     </tr>
                     <tr><td colSpan={2}>&nbsp;</td></tr>
                     <tr>
@@ -207,10 +326,6 @@ const KaKaoMap: FC = () => {
                         <td><div id="jsonPNU" /></td>
                     </tr>
                     <tr>
-                        <td>FullPNU:</td>
-                        <td><div id="jsonFullPNU" /></td>
-                    </tr>
-                    <tr>
                         <td>좌표(x):</td>
                         <td><div id="jsonX" /></td>
                     </tr>
@@ -221,7 +336,7 @@ const KaKaoMap: FC = () => {
 
                     <tr>
                         <td colSpan={2} align="center">
-                            {/*{responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}*/}
+                            {responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}
                         </td>
                     </tr>
                     <tr>
