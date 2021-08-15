@@ -16,7 +16,7 @@ const authRouter = require("./routes/auth");
 const apiRouter = require("./routes/api");
 
 const app = express();
-app.set("PORT", process.env.PORT || 1000);
+app.set("PORT", process.env.PORT || 1010);
 sequelize
     .sync()
     .then(() => {

@@ -50,14 +50,24 @@ router.get('/',  async(req, res, next) => {
         if( parser.validate(xml) === true) { //optional (it'll return an object in case it's not valid)
             const jsonObj = parser.parse(xml,options);
 
-            var json = JSON.stringify(jsonObj);
-            console.log("result = ", json);
+            // jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:LNM_LNDCGR_SMBO']
+
+            // 지번지목부호
+            // const landSymbol = jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:LNM_LNDCGR_SMBOL'];
+
+            // console.log("result1 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:LNM_LNDCGR_SMBOL']);
+            // console.log("result2 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:LAD_USE_SITTN']);
+            // console.log("result3 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:PRPOS_AREA']);
+            // console.log("result4 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:LNDPCL_AR']);
+            // console.log("result5 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:LNDCGR_CODE']);
+            // console.log("result6 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:TPGRPH_FRM_CODE']);
+            // console.log("result7 = ", jsonObj['wfs:FeatureCollection']['gml:featureMember']['NSDI:F166']['NSDI:ROAD_SIDE_CODE']);
         }
 
         console.log("\n==============JSON===============\n");
 
         const jsonData_fir = JSON.parse(getItem_fir.data.contents);
-        const All = jsonData_fir.indvdLandPrices.field
+        const All = jsonData_fir.indvdLandPrices.field;
 
         console.log('All: ', All);
         console.log("\n===============================\n");
