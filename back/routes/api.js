@@ -6,33 +6,33 @@ require('dotenv').config();
 
 const router = express.Router();
 
-router.get("/aa", (req, res, next) => {
+router.get("/", (req, res, next) => {
     console.log("!!!!! = ", req.user);
     return res.json(req.user || false);
 });
 
-router.get('/',  async(req, res, next) => {
+router.get('/reinfo',  async(req, res, next) => {
     try{
         const { pnu, stdrYear } = req.query;
         console.log("query로 넘어오는 값들", pnu, stdrYear);
-        const getItem_fir = await axios.get(
+        const getItemFir = await axios.get(
             `https://api.allorigins.win/get?url=
             ${encodeURIComponent(
                 `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/attr/getIndvdLandPriceAttr?ServiceKey=${process.env.SERVICE_KEY}&pnu=${pnu}&stdrYear=${stdrYear}&format=json&numOfRows=1&pageNo=1`
             )}`
         );
-        console.log(getItem_fir.data);
+        console.log(getItemFir.data);
 
-        const getItem_sec = await axios.get(
+        const getItemSec = await axios.get(
             `https://api.allorigins.win/get?url=
             ${encodeURIComponent(
                 `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/wfs/getIndvdLandPriceWFS?ServiceKey=${process.env.SERVICE_KEY}&typename=F166&pnu=${pnu}&maxFeatures=10&resultType=results&srsName=EPSG:5174`
             )}`
         );
         console.log("\n==============XML===============\n");
-        console.log(getItem_sec.data['contents']);
+        console.log(getItemSec.data['contents']);
 
-        const xml = getItem_sec.data['contents'];
+        const xml = getItemSec.data['contents'];
         var options = {
             attributeNamePrefix : "@_",
             attrNodeName: "attr", //default is 'false'
@@ -58,8 +58,8 @@ router.get('/',  async(req, res, next) => {
 
         console.log("\n==============JSON===============\n");
 
-        const jsonData_fir = JSON.parse(getItem_fir.data.contents);
-        const All = jsonData_fir.indvdLandPrices.field;
+        const jsonDataFir = JSON.parse(getItemFir.data.contents);
+        const All = jsonDataFir.indvdLandPrices.field;
 
         console.log('All: ', All);
         console.log("\n===============================\n");
@@ -67,6 +67,10 @@ router.get('/',  async(req, res, next) => {
     } catch (error) {
         console.log(error);
     }
+});
+
+router.get('/newsinfo', async(req, res, next) => {
+   const getNewsInfo = await axios.get(`https://openapi.naver.com/v1/search/news.json?query=주식&display=10&start=1&sort=sim`)
 });
 
 module.exports = router;
