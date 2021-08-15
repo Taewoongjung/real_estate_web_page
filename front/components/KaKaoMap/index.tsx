@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {Aside, CancelBtn, CenterAxis, MapScreen} from "./style";
+import {Aside, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
 import RightBox from "@components/RightBox";
 import axios from "axios";
 
@@ -158,13 +158,13 @@ const KaKaoMap: FC = () => {
             // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
             function displayCenterInfo(result: any, status: any) {
                 if (status === window.kakao.maps.services.Status.OK) {
-                    // const infoDiv = document.getElementById('centerAddr');
+                    const infoDiv = document.getElementById('centerAddr');
                     // console.log("@@!! = ", infoDiv);
                     for(var i = 0; i < result.length; i++) {
                         // 행정동의 region_type 값은 'H' 이므로
                         if (result[i].region_type === 'H') {
                             // @ts-ignore
-                            // infoDiv.innerHTML = result[i].address_name;
+                            infoDiv.innerHTML = result[i].address_name;
                             break;
                         }
                     }
@@ -281,17 +281,19 @@ const KaKaoMap: FC = () => {
 
     return (
         <>
-            <button onClick={onClickTrafficMap}>교통정보</button>
-            <button onClick={onClickRoadMap}>도로정보</button>
-            <button onClick={onClickTerrainMap}>지형정보</button>
-            <button onClick={onCLickDistrictMap}>지적편집도</button>
-
+            <MapTypeBtn className="btn btn-default" onClick={onClickTrafficMap}>교통정보</MapTypeBtn>
+            <MapTypeBtn className="btn btn-default" onClick={onClickRoadMap}>도로정보</MapTypeBtn>
+            <MapTypeBtn className="btn btn-default" onClick={onClickTerrainMap}>지형정보</MapTypeBtn>
+            <MapTypeBtn className="btn btn-default" onClick={onCLickDistrictMap}>지적편집도</MapTypeBtn>
             <MapScreen id="map" ref={aMap} />
             <div>
             <Aside zIndex={zIndex}>
                 <CancelBtn className="btn btn-default" onClick={onClickCancelBtn}>
                     <div className="glyphicon glyphicon-remove" />
                 </CancelBtn>
+                <button type="button" className="btn btn-default">
+                    <span className="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+                </button>
                 <table className="table table-hover">
                     <thead>
                     <tr>

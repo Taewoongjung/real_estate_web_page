@@ -7,8 +7,8 @@ export const MapScreen = styled.div`
   margin: 5px;
   padding: 10px;
   background-color: green;
-  width: 99%;
-  height: 920px;
+  width: 100%;
+  height: 900px;
   
 `;
 
@@ -17,6 +17,9 @@ export const CenterDiv = styled.div`
   //cp
 `;
 
+export const MapTypeBtn = styled.button`
+  z-index: 5;
+`;
 
 export const Aside = styled.div<{zIndex:any}>`
   position: relative;
