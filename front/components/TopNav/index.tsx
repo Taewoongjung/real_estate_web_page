@@ -1,13 +1,19 @@
 import React, {FC, useCallback, useState} from 'react';
-import {Nav, Toggle} from "./style";
+import {Nav, RightMenu, Toggle, Header, ProfileImg} from "./style";
+import gravatar from 'gravatar';
+import useSWR from "swr";
+import fetcher from "@utils/fetcher";
 
 const TopNav:FC = () => {
+    const {data, error, revalidate, mutate} = useSWR('http://localhost:1010/api/aa', fetcher,{
+        dedupingInterval: 2000,
+    });
+    console.log("@@@ = ", data);
     const [navCollapse, setNavCollapse] = useState(true);
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
     }, []);
-
 
     return (
         <Nav>
@@ -52,6 +58,13 @@ const TopNav:FC = () => {
                         </ul>}
                     </Toggle>
                 </ul>
+            </div>
+            <div>
+                <Header>
+                    <RightMenu>
+                        {/*<ProfileImg src={gravatar.url(data.email,{ s:'28px', d:'retro'})} alt={data.nick} />*/}
+                    </RightMenu>
+                </Header>
             </div>
         </Nav>
     )

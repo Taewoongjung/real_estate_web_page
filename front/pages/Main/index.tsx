@@ -6,7 +6,6 @@ import RightBox from "@components/RightBox";
 
 
 const Main = () => {
-
     return (
         <Wrap>
             <Container>
