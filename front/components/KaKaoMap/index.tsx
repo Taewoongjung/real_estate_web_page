@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {Aside, Bottom, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
+import {Aside, BottomBox, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
 import RightBox from "@components/RightBox";
 import axios from "axios";
 
@@ -8,6 +8,8 @@ declare global {
         kakao: any;
         adrr: string;
         pnu: string;
+        si: string;
+        dong: string;
     }
 }
 
@@ -186,6 +188,12 @@ const KaKaoMap: FC = () => {
                 setResponsedData(response.data);
                 console.log("first Info");
                 console.log(response.data);
+
+                window.si = response.data['documents'][0]['address']['region_1depth_name'];
+                window.dong = response.data['documents'][0]['address']['region_2depth_name'];
+
+                console.log("@!!! = ", window.si, window.dong);
+
                 // @ts-ignore
                 document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
                 // @ts-ignore
@@ -196,6 +204,7 @@ const KaKaoMap: FC = () => {
                 const main = document.getElementById("jsonMain").innerHTML = response.data['documents'][0]['address']['main_address_no'];
                 // @ts-ignore
                 const sub = document.getElementById("jsonSub").innerHTML = response.data['documents'][0]['address']['sub_address_no'];
+
                 /////////////////////////////////////////////////////////////////////
 
                 const YoN = response.data['documents'][0]['address']['mountain_yn'];
@@ -222,9 +231,6 @@ const KaKaoMap: FC = () => {
 
                 /////////////////////////////////////////////////////////////////////
 
-                // // @ts-ignore
-                // document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
-
                 let beforeFull = response.data['documents'][0]['address']['b_code'];
 
                 if(YoN === 'N') {
@@ -244,14 +250,14 @@ const KaKaoMap: FC = () => {
             });
     },[]);
 
-    const onClick_second = useCallback((e) => {
+    const onClick_second = useCallback(async(e) => {
         e.preventDefault();
         console.log("got PNU = ", window.pnu);
         setPnu(window.pnu);
         console.log('!', window.pnu);
         console.log(typeof (window.pnu));
 
-        const axiosRequest = axios.get(
+        const axiosRequest = await axios.get(
             'http://localhost:1010/api/reinfo',
             {
                 params:{
@@ -273,6 +279,60 @@ const KaKaoMap: FC = () => {
                 document.getElementById("pblntfPclnd").innerHTML = response['data'][0].pblntfPclnd;
                 // @ts-ignore
                 document.getElementById("lastUpdtDt").innerHTML = response['data'][0].lastUpdtDt;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        const requestNews = await axios.get(
+            'http://localhost:1010/api/newsinfo',
+            {
+                params: {
+                    si: window.si,
+                    dong: window.dong,
+                }
+            })
+            .then((response)=>{
+                console.log(response.data);
+                const data = response.data.items[0];
+                console.log("responsed data = ", data);
+
+                // first
+
+                // @ts-ignore
+                document.getElementById("title_fir").innerHTML = response.data.items[0]['title'];
+                // @ts-ignore
+                document.getElementById("image_fir").href = response.data.items[0]['link'];
+                // @ts-ignore
+                document.getElementById("content_fir").innerHTML = response.data.items[0]['description'];
+
+                // second
+
+                // @ts-ignore
+                document.getElementById("title_sec").innerHTML = response.data.items[1]['title'];
+                // @ts-ignore
+                document.getElementById("image_sec").href = response.data.items[1]['link'];
+                // @ts-ignore
+                document.getElementById("content_sec").innerHTML = response.data.items[1]['description'];
+
+                // third
+
+                // @ts-ignore
+                document.getElementById("title_trd").innerHTML = response.data.items[2]['title'];
+                // @ts-ignore
+                document.getElementById("image_trd").href = response.data.items[2]['link'];
+                // @ts-ignore
+                document.getElementById("content_trd").innerHTML = response.data.items[2]['description'];
+
+                // fourth
+
+                // @ts-ignore
+                document.getElementById("title_frh").innerHTML = response.data.items[3]['title'];
+                // @ts-ignore
+                document.getElementById("image_frh").href = response.data.items[3]['link'];
+                // @ts-ignore
+                document.getElementById("content_frh").innerHTML = response.data.items[3]['description'];
+
             })
             .catch((error) => {
                 console.log(error);
@@ -373,9 +433,42 @@ const KaKaoMap: FC = () => {
                         </thead>
                     </table>
                 </Aside>
-                <Bottom>
-
-                </Bottom>
+                <BottomBox zIndex={zIndex}>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <a id="image_fir" href="#" className="thumbnail">
+                                <div className="caption">
+                                    <h3 id="title_fir"></h3>
+                                    <p id="content_fir"></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <a id="image_sec" href="#" className="thumbnail">
+                                <div className="caption">
+                                    <h3 id="title_sec"></h3>
+                                    <p id="content_sec"></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <a id="image_trd" href="#" className="thumbnail">
+                                <div className="caption">
+                                    <h3 id="title_trd"></h3>
+                                    <p id="content_trd"></p>
+                                </div>
+                            </a>
+                        </div>
+                        <div className="col-xs-6 col-md-3">
+                            <a id="image_frh" href="#" className="thumbnail">
+                                <div className="caption">
+                                    <h3 id="title_frh"></h3>
+                                    <p id="content_frh"></p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </BottomBox>
             </div>
         </>
     );
