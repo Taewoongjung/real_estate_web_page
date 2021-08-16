@@ -19,6 +19,7 @@ const KaKaoMap: FC = () => {
     const [getTerrainMap, setTerrainMap] = useState(false);
     const [getDistrictMap, setDistrictMap] = useState(false);
     const [zIndex, setzIndex] = useState(0);
+    const [getSecondData, setSecondData] = useState('');
 
     const [getData, setData] = useState('');
     const [responsedData, setResponsedData] = useState('');
@@ -268,6 +269,7 @@ const KaKaoMap: FC = () => {
             .then(response => {
                 console.log("second Info");
                 console.log(response.data);
+                setSecondData(response.data);
                 console.log(response['data'][0].stdrMt);
                 // @ts-ignore
                 document.getElementById("regstrSeCode").innerHTML = response['data'][0].regstrSeCode;
@@ -433,7 +435,7 @@ const KaKaoMap: FC = () => {
                         </thead>
                     </table>
                 </Aside>
-                <BottomBox zIndex={zIndex}>
+                {getSecondData && <BottomBox zIndex={zIndex}>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
                             <a id="image_fir" href="#" className="thumbnail">
@@ -468,7 +470,7 @@ const KaKaoMap: FC = () => {
                             </a>
                         </div>
                     </div>
-                </BottomBox>
+                </BottomBox> }
             </div>
         </>
     );
