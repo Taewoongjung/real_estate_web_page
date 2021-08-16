@@ -70,7 +70,20 @@ router.get('/reinfo',  async(req, res, next) => {
 });
 
 router.get('/newsinfo', async(req, res, next) => {
-   const getNewsInfo = await axios.get(`https://openapi.naver.com/v1/search/news.json?query=주식&display=10&start=1&sort=sim`)
+    try {
+        const getNewsInfo = await axios.get(
+            `https://openapi.naver.com/v1/search/news.json?query=aa&display=10&start=1&sort=sim`, {
+            headers: {
+                'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
+            }
+        });
+
+        console.log("got News info = ", getNewsInfo.data);
+
+        return res.send(getNewsInfo);
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 module.exports = router;
