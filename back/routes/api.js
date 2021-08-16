@@ -69,18 +69,30 @@ router.get('/reinfo',  async(req, res, next) => {
     }
 });
 
+router.get('/landimg', async(req, res, next) => {
+    const getImage = await axios.get(
+        `https://api.allorigins.win/get?url=
+            ${encodeURIComponent(
+            `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/wms/getIndvdLandPriceWMS?ServiceKey=${process.env.SERVICE_KEY}&layers=166&crs=EPSG:5174&bbox=227547,451643,227907,451897&width=70&height=70&format=image/png&transparent=false&bgcolor=0xFFFFFF&exceptions=blank`
+        )}`
+    );
+    return res.send(getImage);
+});
+
 router.get('/newsinfo', async(req, res, next) => {
     try {
+        const { si, dong } = req.query;
+        console.log("newsinfo 라우터에 query로 넘어오는 값들", si, dong);
+
         const getNewsInfo = await axios.get(
-            `https://openapi.naver.com/v1/search/news.json?query=aa&display=10&start=1&sort=sim`, {
+            `https://openapi.naver.com/v1/search/news.json?query=${encodeURI(dong)}${encodeURI("부동산")}&display=10&start=1&sort=sim`, {
             headers: {
                 'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
             }
         });
+        console.log("getNewsInfo = ", getNewsInfo);
 
-        console.log("got News info = ", getNewsInfo.data);
-
-        return res.send(getNewsInfo);
+        return res.send(getNewsInfo.data);
     } catch (error) {
         console.log(error);
     }
