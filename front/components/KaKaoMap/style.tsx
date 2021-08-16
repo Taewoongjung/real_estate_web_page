@@ -9,7 +9,6 @@ export const MapScreen = styled.div`
   background-color: green;
   width: 100%;
   height: 900px;
-  
 `;
 
 export const CenterDiv = styled.div`
@@ -29,6 +28,16 @@ export const Aside = styled.div<{zIndex:any}>`
   height: 900px;
   background-color: aliceblue;
   z-index:${(props) => props.zIndex};
+`;
+
+export const Bottom = styled.div`
+  position: relative;
+  float: bottom;
+  border: 1px solid #999;
+  width: 90%;
+  height: 300px;
+  background-color: aliceblue;
+  z-index: 22;
 `;
 
 export const CenterAxis = styled.h3`

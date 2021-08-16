@@ -42,7 +42,7 @@ const LogIn = () => {
     return (
         <div id="container">
             <Header>
-                <img src='utils/logo.png' />
+                <img src='./utils/logo.png' />
             </Header>
             <Form onSubmit={onSubmit}>
                 <Label id="email-label">

@@ -3,11 +3,13 @@ import {Nav, RightMenu, Toggle, Header, ProfileImg} from "./style";
 import gravatar from 'gravatar';
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
+import {IUser} from "@typings/db";
 
 const TopNav:FC = () => {
-    const {data, error, revalidate, mutate} = useSWR('http://localhost:1010/api/aa', fetcher,{
+    const {data} = useSWR<IUser | true>('http://localhost:1010/api/', fetcher,{
         dedupingInterval: 2000,
     });
+
     console.log("@@@ = ", data);
     const [navCollapse, setNavCollapse] = useState(true);
 
@@ -19,15 +21,8 @@ const TopNav:FC = () => {
         <Nav>
             <div className="collapse navbar-collapse">
                 <ul className="nav navbar-nav">
-                    {/*<li id="navbar-page"><a href="/"> Home</a></li>*/}
-                    <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="#" className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown">
-                        부동산 <span className="caret"></span></a>
-                        {navCollapse && <ul className="dropdown-menu" role="menu" aria-labelledby="dropdownCategoryMenu">
-                            <li><a href="/category/1"> 아파트</a></li>
-                            <li><a href="/category/2"> 빌라</a></li>
-                            <li><a href="/category/3"> 오피스텔</a></li>
-                            <li><a href="/category/4"> 원, 투룸</a></li>
-                        </ul>}
+                    <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="/house" >
+                        부동산</a>
                     </Toggle>
                     <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown">
                         <a href="#" className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown">임장 <span className="caret"></span></a>
@@ -59,13 +54,13 @@ const TopNav:FC = () => {
                     </Toggle>
                 </ul>
             </div>
-            <div>
-                <Header>
-                    <RightMenu>
-                        {/*<ProfileImg src={gravatar.url(data.email,{ s:'28px', d:'retro'})} alt={data.nick} />*/}
-                    </RightMenu>
-                </Header>
-            </div>
+            {/*<div>*/}
+            {/*    <Header>*/}
+            {/*        <RightMenu>*/}
+            {/*            <ProfileImg src={gravatar.url(data.email,{ s:'28px', d:'retro'})} alt={data.nick} />*/}
+            {/*        </RightMenu>*/}
+            {/*    </Header>*/}
+            {/*</div>*/}
         </Nav>
     )
 }

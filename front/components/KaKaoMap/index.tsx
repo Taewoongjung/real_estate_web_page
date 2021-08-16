@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
-import {Aside, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
+import {Aside, Bottom, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
 import RightBox from "@components/RightBox";
 import axios from "axios";
 
@@ -222,8 +222,8 @@ const KaKaoMap: FC = () => {
 
                 /////////////////////////////////////////////////////////////////////
 
-                // @ts-ignore
-                document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
+                // // @ts-ignore
+                // document.getElementById("jsonPNU").innerHTML = response.data['documents'][0]['address']['b_code'];
 
                 let beforeFull = response.data['documents'][0]['address']['b_code'];
 
@@ -237,7 +237,7 @@ const KaKaoMap: FC = () => {
                 /////////////////////////////////////////////////////////////////////
 
                 // @ts-ignore
-                const Full = document.getElementById("jsonFullPNU").innerHTML = beforeFull;
+                document.getElementById("jsonFullPNU").innerHTML = beforeFull;
             })
             .catch((error) => {
                 console.log(error);
@@ -252,7 +252,7 @@ const KaKaoMap: FC = () => {
         console.log(typeof (window.pnu));
 
         const axiosRequest = axios.get(
-            'http://localhost:1010/api/',
+            'http://localhost:1010/api/reinfo',
             {
                 params:{
                     pnu : window.pnu,
@@ -277,6 +277,7 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
+
     },[]);
 
     return (
@@ -287,94 +288,94 @@ const KaKaoMap: FC = () => {
             <MapTypeBtn className="btn btn-default" onClick={onCLickDistrictMap}>지적편집도</MapTypeBtn>
             <MapScreen id="map" ref={aMap} />
             <div>
-            <Aside zIndex={zIndex}>
-                <CancelBtn className="btn btn-default" onClick={onClickCancelBtn}>
-                    <div className="glyphicon glyphicon-remove" />
-                </CancelBtn>
-                <button type="button" className="btn btn-default">
-                    <span className="glyphicon glyphicon-star" aria-hidden="true"></span> Star
-                </button>
-                <table className="table table-hover">
-                    <thead>
-                    <tr>
-                        <td colSpan={2} align="center">중심 화면</td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2} align="center"><CenterAxis id="centerAddr" /></td>
-                    </tr>
-                    <tr>
-                        <td>주소(도로명):</td>
-                        <td><div id="detailAddr"></div></td>
-                    </tr>
-                    <tr>
-                        {/*<td colSpan={2} align="center">{getData && <button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button>}</td>*/}
-                        <td colSpan={2} align="center"><button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button></td>
-                    </tr>
-                    <tr><td colSpan={2}>&nbsp;</td></tr>
-                    <tr>
-                        <td>주소:</td>
-                        <td><div id="jsonAddr" /></td>
-                    </tr>
-                    <tr>
-                        <td>본번:</td>
-                        <td><div id="jsonMain" /></td>
-                    </tr>
-                    <tr>
-                        <td>부번:</td>
-                        <td><div id="jsonSub" /></td>
-                    </tr>
-                    <tr>
-                        <td>PNU:</td>
-                        <td><div id="jsonPNU" /></td>
-                    </tr>
-                    <tr>
-                        <td>좌표(x):</td>
-                        <td><div id="jsonX" /></td>
-                    </tr>
-                    <tr>
-                        <td>좌표(y):</td>
-                        <td><div id="jsonY" /></td>
-                    </tr>
+                <Aside zIndex={zIndex}>
+                    <CancelBtn className="btn btn-default" onClick={onClickCancelBtn}>
+                        <div className="glyphicon glyphicon-remove" />
+                    </CancelBtn>
+                    <button type="button" className="btn btn-default">
+                        <span className="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+                    </button>
+                    <table className="table table-hover">
+                        <thead>
+                        <tr>
+                            <td colSpan={2} align="center">중심 화면</td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2} align="center"><CenterAxis id="centerAddr" /></td>
+                        </tr>
+                        <tr>
+                            <td>주소(도로명):</td>
+                            <td><div id="detailAddr"></div></td>
+                        </tr>
+                        <tr>
+                            {/*<td colSpan={2} align="center">{getData && <button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button>}</td>*/}
+                            <td colSpan={2} align="center"><button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button></td>
+                        </tr>
+                        <tr><td colSpan={2}>&nbsp;</td></tr>
+                        <tr>
+                            <td>주소:</td>
+                            <td><div id="jsonAddr" /></td>
+                        </tr>
+                        <tr>
+                            <td>본번:</td>
+                            <td><div id="jsonMain" /></td>
+                        </tr>
+                        <tr>
+                            <td>부번:</td>
+                            <td><div id="jsonSub" /></td>
+                        </tr>
+                        <tr>
+                            <td>고유필지번호:</td>
+                            <td><div id="jsonFullPNU" /></td>
+                        </tr>
+                        <tr>
+                            <td>좌표(x):</td>
+                            <td><div id="jsonX" /></td>
+                        </tr>
+                        <tr>
+                            <td>좌표(y):</td>
+                            <td><div id="jsonY" /></td>
+                        </tr>
 
-                    <tr>
-                        <td colSpan={2} align="center">
-                            {responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>특수지구분명:</td>
-                        <td>
-                            <div id="regstrSeCodeNm"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>특수지구코드:</td>
-                        <td><div id="regstrSeCode" /></td>
-                    </tr>
-                    <tr>
-                        <td>공시 일자:</td>
-                        <td>
-                            <div id="pblntfDe"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>공시지가:</td>
-                        <td>
-                            <div id="pblntfPclnd"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>데이터기준일자:</td>
-                        <td>
-                            <div id="lastUpdtDt"/>
-                        </td>
-                    </tr>
-                    </thead>
-                </table>
-                <div id='chkTerrain'>
+                        <tr>
+                            <td colSpan={2} align="center">
+                                {responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>특수지구분명:</td>
+                            <td>
+                                <div id="regstrSeCodeNm"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>특수지구코드:</td>
+                            <td><div id="regstrSeCode" /></td>
+                        </tr>
+                        <tr>
+                            <td>공시 일자:</td>
+                            <td>
+                                <div id="pblntfDe"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>공시지가:</td>
+                            <td>
+                                <div id="pblntfPclnd"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>데이터기준일자:</td>
+                            <td>
+                                <div id="lastUpdtDt"/>
+                            </td>
+                        </tr>
+                        </thead>
+                    </table>
+                </Aside>
+                <Bottom>
 
-                </div>
-            </Aside>
+                </Bottom>
             </div>
         </>
     );
