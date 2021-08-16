@@ -1,6 +1,5 @@
 import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import {Aside, BottomBox, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
-import RightBox from "@components/RightBox";
 import axios from "axios";
 
 declare global {
