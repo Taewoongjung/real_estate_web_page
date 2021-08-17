@@ -30,7 +30,7 @@ router.get('/reinfo',  async(req, res, next) => {
             )}`
         );
         console.log("\n==============XML===============\n");
-        console.log(getItemSec.data['contents']);
+        // console.log(getItemSec.data['contents']);
 
         const xml = getItemSec.data['contents'];
         var options = {
@@ -56,26 +56,66 @@ router.get('/reinfo',  async(req, res, next) => {
             const jsonObj = parser.parse(xml,options);
         }
 
-        console.log("\n==============JSON===============\n");
+        // console.log("\n==============JSON===============\n");
 
         const jsonDataFir = JSON.parse(getItemFir.data.contents);
         const All = jsonDataFir.indvdLandPrices.field;
 
-        console.log('All: ', All);
-        console.log("\n===============================\n");
-        return res.send(All);
+        // console.log('All: ', All);
+        // console.log("\n===============================\n");
+
+        const getData = await axios.get(
+            `http://openapi.nsdi.go.kr/nsdi/LandCharacteristicsService/attr/getLandCharacteristics`, {
+                params: {
+                    format: 'json',
+                    authkey:'5202a492640453cc982ec2',
+                    pnu:pnu,
+                    stdrYear:'2021',
+                    numOfRows:'10',
+                    pageNo:'1'
+                },
+                headers: {
+                    host: "openapi.nsdi.go.kr",
+                    Accept: "*/*"
+                }
+            })
+        console.log("responsed data = ", getData.data['landCharacteristicss']['field']);
+        const allTheSecondData = getData.data['landCharacteristicss']['field'];
+        const sumUp = Object.assign(All, allTheSecondData);
+        console.log("all the data = ", sumUp);
+        return res.send(sumUp);
+
     } catch (error) {
         console.log(error);
     }
 });
 
 router.get('/secreinfo', async(req, res, next) => {
-    const { pnu, stdrYear } = req.query;
-    console.log("(secreinfo) query로 넘어오는 값들", pnu, stdrYear);
-    const getImage = await axios.get(
-        `http://openapi.nsdi.go.kr/nsdi/LandCharacteristicsService/attr/getLandCharacteristics?authkey=${process.env.KNSD_KEY}&pnu=1111010100100010000&stdrYear=2017&format=json&numOfRows=10&pageNo=1`
-    )
-    return res.send(getImage);
+    try {
+        const { pnu, stdrYear } = req.query;
+        console.log("aaa = ", typeof(pnu));
+        console.log("bbb = ", typeof(process.env.KNSD_KEY));
+        console.log("(secreinfo) query로 넘어오는 값들", pnu, stdrYear);
+        const getData = await axios.get(
+            `http://openapi.nsdi.go.kr/nsdi/LandCharacteristicsService/attr/getLandCharacteristics`, {
+                params: {
+                    format: 'json',
+                    authkey:'5202a492640453cc982ec2',
+                    pnu:pnu,
+                    stdrYear:'2021',
+                    numOfRows:'10',
+                    pageNo:'1'
+                },
+                headers: {
+                    host: "openapi.nsdi.go.kr",
+                    Accept: "*/*"
+                }
+            })
+        console.log("responsed data = ", getData);
+        return res.send(getData);
+    } catch(error) {
+        console.log(error);
+    }
 });
 
 router.get('/newsinfo', async(req, res, next) => {
@@ -89,7 +129,7 @@ router.get('/newsinfo', async(req, res, next) => {
                 'X-Naver-Client-Id': process.env.NAVER_CLIENT_ID, 'X-Naver-Client-Secret': process.env.NAVER_CLIENT_SECRET
             }
         });
-        console.log("getNewsInfo = ", getNewsInfo);
+        // console.log("getNewsInfo = ", getNewsInfo.data);
 
         return res.send(getNewsInfo.data);
     } catch (error) {
