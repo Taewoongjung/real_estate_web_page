@@ -14,7 +14,7 @@ router.get("/", (req, res, next) => {
 router.get('/reinfo',  async(req, res, next) => {
     try{
         const { pnu, stdrYear } = req.query;
-        console.log("query로 넘어오는 값들", pnu, stdrYear);
+        console.log("(reinfo) query로 넘어오는 값들", pnu, stdrYear);
         const getItemFir = await axios.get(
             `https://api.allorigins.win/get?url=
             ${encodeURIComponent(
@@ -69,13 +69,12 @@ router.get('/reinfo',  async(req, res, next) => {
     }
 });
 
-router.get('/landimg', async(req, res, next) => {
+router.get('/secreinfo', async(req, res, next) => {
+    const { pnu, stdrYear } = req.query;
+    console.log("(secreinfo) query로 넘어오는 값들", pnu, stdrYear);
     const getImage = await axios.get(
-        `https://api.allorigins.win/get?url=
-            ${encodeURIComponent(
-            `http://apis.data.go.kr/1611000/nsdi/IndvdLandPriceService/wms/getIndvdLandPriceWMS?ServiceKey=${process.env.SERVICE_KEY}&layers=166&crs=EPSG:5174&bbox=227547,451643,227907,451897&width=70&height=70&format=image/png&transparent=false&bgcolor=0xFFFFFF&exceptions=blank`
-        )}`
-    );
+        `http://openapi.nsdi.go.kr/nsdi/LandCharacteristicsService/attr/getLandCharacteristics?authkey=${process.env.KNSD_KEY}&pnu=1111010100100010000&stdrYear=2017&format=json&numOfRows=10&pageNo=1`
+    )
     return res.send(getImage);
 });
 
