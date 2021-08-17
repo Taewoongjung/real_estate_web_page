@@ -262,40 +262,45 @@ const KaKaoMap: FC = () => {
             })
             .then(response => {
                 console.log("second Info");
-                console.log(response.data);
+                // console.log(response.data[0]);
                 setSecondData(response.data);
-                console.log(response['data'][0].stdrMt);
+                // console.log(response['data'][0].stdrMt);
+                // console.log(response['data'][0].lastUpdtDt);
+                // console.log(response['data'][0].pblntfPclnd);
+                // console.log(response['data'][0].lndcgrCodeNm);
+                console.log("지형형상 = ", response['data'][0].tpgrphHgCodeNm);
+                console.log("토지이용상황 = ", response['data'][0].ladUseSittnNm);
+                console.log("도로측면 = ", response['data'][0].roadSideCodeNm);
+
+
+                const aa = response['data'][0].pblntfPclnd;
                 // @ts-ignore
                 document.getElementById("regstrSeCode").innerHTML = response['data'][0].regstrSeCode;
                 // @ts-ignore
                 document.getElementById("regstrSeCodeNm").innerHTML = response['data'][0].regstrSeCodeNm;
                 // @ts-ignore
-                document.getElementById("pblntfDe").innerHTML = response['data'][0].pblntfDe;
-                // @ts-ignore
-                document.getElementById("pblntfPclnd").innerHTML = response['data'][0].pblntfPclnd;
+                document.getElementById("pblntfPclnd").innerHTML = aa;
                 // @ts-ignore
                 document.getElementById("lastUpdtDt").innerHTML = response['data'][0].lastUpdtDt;
+                // @ts-ignore
+                document.getElementById("lnadArea").innerHTML = response['data'][0].lndpclAr;
+                // @ts-ignore
+                document.getElementById("landName").innerHTML = response['data'][0].lndcgrCodeNm;
+                // @ts-ignore
+                document.getElementById("landType").innerHTML = response['data'][0].prposArea1Nm;
+                // @ts-ignore
+                document.getElementById("landType2").innerHTML = response['data'][0].prposArea2Nm;
+                // @ts-ignore
+                document.getElementById("landUsage").innerHTML = response['data'][0].ladUseSittnNm;
+                // @ts-ignore
+                document.getElementById("landShape").innerHTML = response['data'][0].tpgrphHgCodeNm;
+                // @ts-ignore
+                document.getElementById("landRoad").innerHTML = response['data'][0].roadSideCodeNm;
+
             })
             .catch((error) => {
                 console.log(error);
             });
-
-        // const requestSecondData = await axios.get(
-        //     'http://localhost:1010/api/secreinfo',
-        //     {
-        //         params:{
-        //             pnu : window.pnu,
-        //             stdrYear : "2021",
-        //         },
-        //     })
-        //     .then((response) => {
-        //         console.log("secondData = ");
-        //         console.log(response.data);
-        //     })
-        //     .catch((error) => {
-        //         console.log(error);
-        //     })
-
 
         const requestNews = await axios.get(
             'http://localhost:1010/api/newsinfo',
@@ -350,7 +355,6 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
-
     },[]);
 
     return (
@@ -403,12 +407,6 @@ const KaKaoMap: FC = () => {
                         </tr>
                         {getSecondData && <>
                             <tr>
-                                <td>데이터기준일자:</td>
-                                <td>
-                                    <div id="lastUpdtDt"/>
-                                </td>
-                            </tr>
-                            <tr>
                                 <td>특수지구분명:</td>
                                 <td>
                                     <div id="regstrSeCodeNm"/>
@@ -421,7 +419,7 @@ const KaKaoMap: FC = () => {
                             <tr>
                                 <td>공시 일자:</td>
                                 <td>
-                                    <div id="pblntfDe"/>
+                                    <div id="lastUpdtDt"/>
                                 </td>
                             </tr>
                             <tr>
@@ -457,7 +455,7 @@ const KaKaoMap: FC = () => {
                             <tr>
                                 <td>토지이용상황:</td>
                                 <td>
-                                    <div id="landUseage"/>
+                                    <div id="landUsage"/>
                                 </td>
                             </tr>
                             <tr>
