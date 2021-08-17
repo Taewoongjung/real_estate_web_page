@@ -132,9 +132,6 @@ const KaKaoMap: FC = () => {
                         infowindow.setContent(content);
                         infowindow.open(map, marker);
                     }
-                    var infoAddr = document.getElementById('detailAddr');
-                    // @ts-ignore
-                    infoAddr.innerHTML = result[0].address.address_name;
                     window.adrr = result[0].address.address_name;
                     setData(window.adrr);
                 })
@@ -200,13 +197,11 @@ const KaKaoMap: FC = () => {
                 document.getElementById("jsonX").innerHTML = response.data['documents'][0]['address']['x'];
                 // @ts-ignore
                 document.getElementById("jsonY").innerHTML = response.data['documents'][0]['address']['y'];
-                // @ts-ignore
-                const main = document.getElementById("jsonMain").innerHTML = response.data['documents'][0]['address']['main_address_no'];
-                // @ts-ignore
-                const sub = document.getElementById("jsonSub").innerHTML = response.data['documents'][0]['address']['sub_address_no'];
 
                 /////////////////////////////////////////////////////////////////////
 
+                const main =  response.data['documents'][0]['address']['main_address_no'];
+                const sub =  response.data['documents'][0]['address']['sub_address_no'];
                 const YoN = response.data['documents'][0]['address']['mountain_yn'];
                 const digits_main = main.toString().split('');
                 const arr_main = new Array(4);
@@ -257,7 +252,7 @@ const KaKaoMap: FC = () => {
         console.log('!', window.pnu);
         console.log(typeof (window.pnu));
 
-        const axiosRequest = await axios.get(
+        const requestData = await axios.get(
             'http://localhost:1010/api/reinfo',
             {
                 params:{
@@ -284,6 +279,23 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
+
+        // const requestSecondData = await axios.get(
+        //     'http://localhost:1010/api/secreinfo',
+        //     {
+        //         params:{
+        //             pnu : window.pnu,
+        //             stdrYear : "2021",
+        //         },
+        //     })
+        //     .then((response) => {
+        //         console.log("secondData = ");
+        //         console.log(response.data);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+
 
         const requestNews = await axios.get(
             'http://localhost:1010/api/newsinfo',
@@ -365,25 +377,11 @@ const KaKaoMap: FC = () => {
                             <td colSpan={2} align="center"><CenterAxis id="centerAddr" /></td>
                         </tr>
                         <tr>
-                            <td>주소(도로명):</td>
-                            <td><div id="detailAddr"></div></td>
-                        </tr>
-                        <tr>
-                            {/*<td colSpan={2} align="center">{getData && <button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button>}</td>*/}
                             <td colSpan={2} align="center"><button type="button" className="btn btn-primary" onClick={onClick_first}>선택한 땅 확인</button></td>
                         </tr>
-                        <tr><td colSpan={2}>&nbsp;</td></tr>
                         <tr>
                             <td>주소:</td>
                             <td><div id="jsonAddr" /></td>
-                        </tr>
-                        <tr>
-                            <td>본번:</td>
-                            <td><div id="jsonMain" /></td>
-                        </tr>
-                        <tr>
-                            <td>부번:</td>
-                            <td><div id="jsonSub" /></td>
                         </tr>
                         <tr>
                             <td>고유필지번호:</td>
@@ -404,6 +402,12 @@ const KaKaoMap: FC = () => {
                             </td>
                         </tr>
                         {getSecondData && <>
+                            <tr>
+                                <td>데이터기준일자:</td>
+                                <td>
+                                    <div id="lastUpdtDt"/>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>특수지구분명:</td>
                                 <td>
@@ -427,9 +431,45 @@ const KaKaoMap: FC = () => {
                                 </td>
                             </tr>
                             <tr>
-                                <td>데이터기준일자:</td>
+                                <td>토지면적(㎡):</td>
                                 <td>
-                                    <div id="lastUpdtDt"/>
+                                    <div id="lnadArea"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>지목:</td>
+                                <td>
+                                    <div id="landName"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>용도지역:</td>
+                                <td>
+                                    <div id="landType"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>용도지역2:</td>
+                                <td>
+                                    <div id="landType2"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>토지이용상황:</td>
+                                <td>
+                                    <div id="landUseage"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>지형형상:</td>
+                                <td>
+                                    <div id="landShape"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>도로측면:</td>
+                                <td>
+                                    <div id="landRoad"/>
                                 </td>
                             </tr>
                         </>}
