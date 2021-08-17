@@ -403,34 +403,36 @@ const KaKaoMap: FC = () => {
                                 {responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}
                             </td>
                         </tr>
-                        <tr>
-                            <td>특수지구분명:</td>
-                            <td>
-                                <div id="regstrSeCodeNm"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>특수지구코드:</td>
-                            <td><div id="regstrSeCode" /></td>
-                        </tr>
-                        <tr>
-                            <td>공시 일자:</td>
-                            <td>
-                                <div id="pblntfDe"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>공시지가:</td>
-                            <td>
-                                <div id="pblntfPclnd"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>데이터기준일자:</td>
-                            <td>
-                                <div id="lastUpdtDt"/>
-                            </td>
-                        </tr>
+                        {getSecondData && <>
+                            <tr>
+                                <td>특수지구분명:</td>
+                                <td>
+                                    <div id="regstrSeCodeNm"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>특수지구코드:</td>
+                                <td><div id="regstrSeCode" /></td>
+                            </tr>
+                            <tr>
+                                <td>공시 일자:</td>
+                                <td>
+                                    <div id="pblntfDe"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>공시지가:</td>
+                                <td>
+                                    <div id="pblntfPclnd"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>데이터기준일자:</td>
+                                <td>
+                                    <div id="lastUpdtDt"/>
+                                </td>
+                            </tr>
+                        </>}
                         </thead>
                     </table>
                 </Aside>
