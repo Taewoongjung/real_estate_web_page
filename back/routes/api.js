@@ -137,4 +137,20 @@ router.get('/newsinfo', async(req, res, next) => {
     }
 });
 
+router.get('/apartment', async(req, res, next) => {
+   try {
+       const { pnuCode } = req.query;
+       console.log("apartment 라우터에 query로 넘어오는 값들", pnuCode);
+
+        const getAptInfo = await axios.get(
+            `http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade?LAWD_CD=${pnuCode}&DEAL_YMD=201512&serviceKey=${process.env.SERVICE_KEY}`
+        )
+       console.log("get Apartments information = ", getAptInfo.data.response['body']['items']['item']);
+
+       return res.send(getAptInfo.data.response['body']['items']['item']);
+   } catch(error) {
+       console.log(error);
+   }
+});
+
 module.exports = router;
