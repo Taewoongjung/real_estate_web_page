@@ -1,7 +1,7 @@
 import React from 'react';
 import {Container, Wrap} from "@pages/Main/style";
 import TopNav from "@components/TopNav";
-import KaKaoMap from "@components/KaKaoMap";
+import KaKaoMapHouse from "@components/KaKaoMapHouse";
 
 const House = () => {
 
@@ -9,7 +9,7 @@ const House = () => {
         <Wrap>
             <Container>
                 <TopNav />
-                <KaKaoMap />
+                <KaKaoMapHouse />
             </Container>
         </Wrap>
     )

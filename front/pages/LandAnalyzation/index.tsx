@@ -1,14 +1,14 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Container, Wrap} from "@pages/Main/style";
 import TopNav from "@components/TopNav";
-import KaKaoMap from "@components/KaKaoMap";
+import KaKaoMapLand from "@components/KaKaoMapLand";
 
 const LandAnalyzation = () => {
     return (
         <Wrap>
             <Container>
                 <TopNav />
-                <KaKaoMap />
+                <KaKaoMapLand />
                 {/*<RightBox/>*/}
             </Container>
         </Wrap>

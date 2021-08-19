@@ -21,9 +21,9 @@ const TopNav:FC = () => {
         <Nav>
             <div className="collapse navbar-collapse">
                 <ul className="nav navbar-nav">
-                    <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="/house" >
-                        부동산</a>
-                    </Toggle>
+                    {/*<Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="/house" >*/}
+                    {/*    부동산</a>*/}
+                    {/*</Toggle>*/}
                     <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown">
                         <a href="#" className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown">임장 <span className="caret"></span></a>
                         {navCollapse && <ul className="dropdown-menu" role="menu" aria-labelledby="dropdownCategoryMenu">

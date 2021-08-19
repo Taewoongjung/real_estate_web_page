@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {Container, MapScreen, Nav, Toggle, Wrap} from '@pages/Main/style';
-import KaKaoMap from "@components/KaKaoMap";
+import KaKaoMapLand from "@components/KaKaoMapLand";
 import TopNav from "@components/TopNav";
 
 const Main = () => {
@@ -8,7 +8,7 @@ const Main = () => {
         <Wrap>
             <Container>
                 <TopNav />
-                <KaKaoMap />
+                <KaKaoMapLand />
             </Container>
         </Wrap>
     )
