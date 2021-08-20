@@ -70,11 +70,14 @@ const TopNav:FC = () => {
                             <Menu style={{ right: 0, top: 38}} show={showUserMenu} onCloseModal={onClickUserProfile}>
                                 <ProfileModal>
                                     <div>
-                                        <span id="profile-name">{useData?.nick}</span>
-                                        <span id="profile-active">Active</span>
+                                        <p className="navbar-text">Nickname:&nbsp; {useData?.nick}</p>
+                                        <button type="button" className="btn btn-default btn-sm">
+                                            <span className="glyphicon glyphicon-star" aria-hidden="true"></span> 즐겨찾기
+                                        </button>
                                     </div>
                                 </ProfileModal>
                                 {/*<LogOutButton onClick={onLogout}>로그아웃</LogOutButton>*/}
+                                <LogOutButton>로그아웃</LogOutButton>
                             </Menu>
                         )}
                         </span>
