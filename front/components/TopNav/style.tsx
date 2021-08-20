@@ -20,8 +20,7 @@ export const Toggle = styled.li<{ collapse: boolean }>`
 `;
 
 export const Header = styled.header`
-  height: 38px;
-  background: #350d36;
+  height: 18px;
   color: #ffffff;
   box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
   padding: 5px;
@@ -50,10 +49,10 @@ export const ProfileModal = styled.div`
 `;
 
 export const ProfileImg = styled.img`
-  width: 28px;
-  height: 28px;
+  width: 39px;
+  height: 39px;
   position: absolute;
-  top: 5px;
+  top: 35px;
   right: 16px;
 `;
 

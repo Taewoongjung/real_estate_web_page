@@ -6,11 +6,12 @@ import fetcher from "@utils/fetcher";
 import {IUser} from "@typings/db";
 
 const TopNav:FC = () => {
-    const {data} = useSWR<IUser | true>('http://localhost:1010/api/', fetcher,{
+    const {data: useData, mutate} = useSWR<IUser>('http://localhost:1010/api/', fetcher,{
         dedupingInterval: 2000,
     });
 
-    console.log("@@@ = ", data);
+    console.log("@@@ = ", useData);
+
     const [navCollapse, setNavCollapse] = useState(true);
 
     const navDropdownCollapse = useCallback(() => {
@@ -54,13 +55,13 @@ const TopNav:FC = () => {
                     </Toggle>
                 </ul>
             </div>
-            {/*<div>*/}
-            {/*    <Header>*/}
-            {/*        <RightMenu>*/}
-            {/*            <ProfileImg src={gravatar.url(data.email,{ s:'28px', d:'retro'})} alt={data.nick} />*/}
-            {/*        </RightMenu>*/}
-            {/*    </Header>*/}
-            {/*</div>*/}
+            <div>
+                <Header>
+                    <RightMenu>
+                        <ProfileImg src={gravatar.url(useData?.email as string,{ s:'28px', d:'retro'})} alt={useData?.nick} />
+                    </RightMenu>
+                </Header>
+            </div>
         </Nav>
     )
 }
