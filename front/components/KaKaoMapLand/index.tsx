@@ -291,8 +291,6 @@ const KaKaoMap: FC = () => {
                 // @ts-ignore
                 document.getElementById("landType2").innerHTML = response['data'][0].prposArea2Nm;
                 // @ts-ignore
-                document.getElementById("landUsage").innerHTML = response['data'][0].ladUseSittnNm;
-                // @ts-ignore
                 document.getElementById("landShape").innerHTML = response['data'][0].tpgrphHgCodeNm;
                 // @ts-ignore
                 document.getElementById("landRoad").innerHTML = response['data'][0].roadSideCodeNm;
@@ -450,12 +448,6 @@ const KaKaoMap: FC = () => {
                                 <td>용도지역2:</td>
                                 <td>
                                     <div id="landType2"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>토지이용상황:</td>
-                                <td>
-                                    <div id="landUsage"/>
                                 </td>
                             </tr>
                             <tr>
