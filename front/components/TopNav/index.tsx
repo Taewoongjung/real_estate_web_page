@@ -72,7 +72,7 @@ const TopNav:FC = () => {
                                     <div>
                                         <p className="navbar-text">Nickname:&nbsp; {useData?.nick}</p>
                                         <button type="button" className="btn btn-default btn-sm">
-                                            <span className="glyphicon glyphicon-star" aria-hidden="true"></span> 즐겨찾기
+                                            <span className="glyphicon glyphicon-star" aria-hidden="true"></span> 즐겨찾기&nbsp;&nbsp;&nbsp;&nbsp;ㅁㅁ
                                         </button>
                                     </div>
                                 </ProfileModal>

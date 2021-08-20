@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 export const CreateMenu = styled.div`
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 20px;
+  right: 50px;
   left: 0;
   bottom: 0;
   z-index: 1000;
@@ -15,7 +15,7 @@ export const CreateMenu = styled.div`
     background-color: rgba(var(--sk_foreground_min_solid, 248, 248, 248), 1);
     border-radius: 6px;
     user-select: none;
-    min-width: 360px;
+    min-width: 200px;
     z-index: 512;
     max-height: calc(100vh - 20px);
     color: rgb(29, 28, 29);
