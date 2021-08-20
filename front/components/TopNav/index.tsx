@@ -1,9 +1,10 @@
 import React, {FC, useCallback, useState} from 'react';
-import {Nav, RightMenu, Toggle, Header, ProfileImg} from "./style";
+import {Nav, RightMenu, Toggle, Header, ProfileImg, ProfileModal, LogOutButton} from "./style";
 import gravatar from 'gravatar';
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 import {IUser} from "@typings/db";
+import Menu from "@components/Menu";
 
 const TopNav:FC = () => {
     const {data: useData, mutate} = useSWR<IUser>('http://localhost:1010/api/', fetcher,{
@@ -11,11 +12,16 @@ const TopNav:FC = () => {
     });
 
     console.log("@@@ = ", useData);
-
+    const [showUserMenu, setShowUserMenu] = useState(false);
     const [navCollapse, setNavCollapse] = useState(true);
 
     const navDropdownCollapse = useCallback(() => {
         setNavCollapse((prev) => !prev);
+    }, []);
+
+    const onClickUserProfile = useCallback((e) => {
+        e.stopPropagation();
+        setShowUserMenu((prev) => !prev);
     }, []);
 
     return (
@@ -58,7 +64,20 @@ const TopNav:FC = () => {
             <div>
                 <Header>
                     <RightMenu>
-                        <ProfileImg src={gravatar.url(useData?.email as string,{ s:'28px', d:'retro'})} alt={useData?.nick} />
+                        <span onClick={onClickUserProfile}>
+                        <ProfileImg src={gravatar.url(useData?.email as string,{ s:'39px', d:'mp'})} alt={useData?.nick} />
+                        {showUserMenu && (
+                            <Menu style={{ right: 0, top: 38}} show={showUserMenu} onCloseModal={onClickUserProfile}>
+                                <ProfileModal>
+                                    <div>
+                                        <span id="profile-name">{useData?.nick}</span>
+                                        <span id="profile-active">Active</span>
+                                    </div>
+                                </ProfileModal>
+                                {/*<LogOutButton onClick={onLogout}>로그아웃</LogOutButton>*/}
+                            </Menu>
+                        )}
+                        </span>
                     </RightMenu>
                 </Header>
             </div>

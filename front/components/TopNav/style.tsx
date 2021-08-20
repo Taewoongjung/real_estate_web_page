@@ -27,6 +27,19 @@ export const Header = styled.header`
   text-align: center;
 `;
 
+export const LogOutButton = styled.button`
+  border: none;
+  width: 100%;
+  border-top: 1px solid rgb(29, 28, 29);
+  background: transparent;
+  display: block;
+  height: 33px;
+  padding: 5px 20px 5px;
+  outline: none;
+  cursor: pointer;
+`;
+
+
 export const ProfileModal = styled.div`
   display: flex;
   padding: 20px;
@@ -53,7 +66,7 @@ export const ProfileImg = styled.img`
   height: 39px;
   position: absolute;
   top: 35px;
-  right: 16px;
+  right: 35px;
 `;
 
 export const RightMenu = styled.div`
