@@ -45,7 +45,7 @@ const TopNav:FC = () => {
                                     <li><a href="/category/1222"> 맛집</a></li>
                                 </ul>}
                             </Toggle>
-                            <li><a href="/category/2"> 청약 아파트</a></li>
+                            <li><a href="/chungyak"> 청약 아파트</a></li>
                         </ul>}
                     </Toggle>
                     <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="#" className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown">

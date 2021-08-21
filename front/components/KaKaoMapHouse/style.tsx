@@ -7,15 +7,24 @@ export const MapScreen = styled.div`
   margin: 5px;
   padding: 10px;
   background-color: green;
-  width: 70%;
-  height: 500px;
+  width: 1100px;
+  height: 800px;
 `;
 
-export const MapTypeBtn = styled.button`
-  z-index: 5;
-`;
-
-export const Select = styled.select`
+export const Aside = styled.div`
+  padding-top: 40px;
+  padding-left: 40px;
   position: relative;
-  width:100px;
+  float: right;
+  border: 1px solid #999;
+  margin-top: 4px;
+  width: 800px;
+  height: 800px;
+  background-color: aliceblue;
+`;
+
+export const TableBox = styled.div`
+  background-color: white;
+  width: 350px;
+  height:500px;
 `;
