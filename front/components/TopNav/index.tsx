@@ -24,6 +24,10 @@ const TopNav:FC = () => {
         setShowUserMenu((prev) => !prev);
     }, []);
 
+    function moveFavorite(){
+        location.href = "/favorite";
+    }
+
     return (
         <Nav>
             <div className="collapse navbar-collapse">
@@ -71,7 +75,7 @@ const TopNav:FC = () => {
                                 <ProfileModal>
                                     <div>
                                         <p className="navbar-text">Nickname:&nbsp; {useData?.nick}</p>
-                                        <button type="button" className="btn btn-default btn-sm">
+                                        <button type="button" className="btn btn-default btn-sm" onClick={moveFavorite} >
                                             <span className="glyphicon glyphicon-star" aria-hidden="true"></span> 즐겨찾기&nbsp;&nbsp;&nbsp;&nbsp;ㅁㅁ
                                         </button>
                                     </div>

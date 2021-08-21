@@ -8,6 +8,7 @@ const Main = loadable(() => import('@pages/Main'));
 // const House = loadable(() => import('@pages/House'));
 const LandAnalyzation = loadable(() => import('@pages/LandAnalyzation'));
 const News = loadable(() => import('@pages/News'));
+const Favorite = loadable(() => import('@pages/Favorite'));
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
             {/*<Route path="/house" component={House} />*/}
             <Route path="/landAnalyzation" component={LandAnalyzation} />
             <Route path="/news" component={News} />
+            <Route path="/favorite" component={Favorite} />
         </Switch>
     )
 }
