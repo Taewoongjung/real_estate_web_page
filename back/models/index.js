@@ -1,18 +1,25 @@
 const Sequelize = require('sequelize');
 
 const User = require('./user');
+const Like = require('./like');
 
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config")[env];
-
 const db = {};
+
 const sequelize = new Sequelize(
     config.database, config.username, config.password, config
 );
 
 db.sequelize = sequelize;
-db.Users = User;
+db.Sequelize = Sequelize;
+db.User = User;
+db.Like = Like;
 
 User.init(sequelize);
+Like.init(sequelize);
+
+User.associate(db);
+Like.associate(db);
 
 module.exports = db;

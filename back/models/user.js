@@ -31,7 +31,7 @@ module.exports = class User extends Model {
             collate: 'utf8_general_ci',
         });
     }
-    // static associate(db) {
-    //     db.User.hasMany(db.Who);
-    // }
+    static associate(db) {
+        db.User.hasMany(db.Like);
+    }
 };
