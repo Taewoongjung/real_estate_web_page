@@ -1,9 +1,10 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import axios from "axios";
 import {Aside, MapScreen} from "./style";
 
 const KaKaoMapFavorite = () => {
 
+    const[getLand, setLand] = useState(false );
     const aMap = useRef(null);
 
     useEffect(()=> {
@@ -49,6 +50,10 @@ const KaKaoMapFavorite = () => {
 
     },[]);
 
+    const landClicked = useCallback((e) => {
+        e.stopPropagation();
+        setLand((prev) => !prev);
+    },[]);
 
     return (
         <>
@@ -56,15 +61,17 @@ const KaKaoMapFavorite = () => {
             <Aside>
                 <div className="btn-group btn-group-justified" role="group" aria-label="...">
                     <div className="btn-group" role="group">
-                        <button type="button" className="btn btn-default">Left</button>
+                        <div className="btn btn-default" onClick={landClicked}>땅</div>
                     </div>
                     <div className="btn-group" role="group">
-                        <button type="button" className="btn btn-default">Middle</button>
-                    </div>
-                    <div className="btn-group" role="group">
-                        <button type="button" className="btn btn-default">Right</button>
+                        <button type="button" className="btn btn-default">청약</button>
                     </div>
                 </div>
+                {getLand &&
+                    <div>
+                        aaa
+                    </div>
+                }
             </Aside>
         </>
     )
