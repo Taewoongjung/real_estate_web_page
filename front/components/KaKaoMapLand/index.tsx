@@ -20,6 +20,14 @@ const KaKaoMap: FC = () => {
     const [zIndex, setzIndex] = useState(0);
     const [getSecondData, setSecondData] = useState('');
 
+    // favorite api에 보낼 것들
+    const [getAddr, setAddr] = useState('');  // 주소
+    const [getLandName, setLandName] = useState('');  // 지목
+    const [getLandArea, setLandArea] = useState('');  // 토지면적
+    const [getLandPrice, setLandPrice] = useState('');  // 공시지가
+    const [getLandProp, setLandProp] = useState('');  // 용도
+    const [getLandSpeLand, setLandSpeLand] = useState('');  // 특수지구분
+
     const [getData, setData] = useState('');
     const [responsedData, setResponsedData] = useState('');
     const [getPnu, setPnu] = useState('');
@@ -198,6 +206,8 @@ const KaKaoMap: FC = () => {
                 // @ts-ignore
                 document.getElementById("jsonY").innerHTML = response.data['documents'][0]['address']['y'];
 
+                setAddr(`${response.data['documents'][0]['address']['address_name']}`);
+                console.log("@@!!!!!!  = ", getAddr);
                 /////////////////////////////////////////////////////////////////////
 
                 const main =  response.data['documents'][0]['address']['main_address_no'];
@@ -243,7 +253,7 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
-    },[]);
+    },[getAddr]);
 
     const onClick_second = useCallback(async(e) => {
         e.preventDefault();
@@ -262,30 +272,31 @@ const KaKaoMap: FC = () => {
             })
             .then(response => {
                 console.log("second Info");
-                // console.log(response.data[0]);
+
                 setSecondData(response.data);
-                // console.log(response['data'][0].stdrMt);
-                // console.log(response['data'][0].lastUpdtDt);
-                // console.log(response['data'][0].pblntfPclnd);
-                // console.log(response['data'][0].lndcgrCodeNm);
+
                 console.log("지형형상 = ", response['data'][0].tpgrphHgCodeNm);
                 console.log("토지이용상황 = ", response['data'][0].ladUseSittnNm);
                 console.log("도로측면 = ", response['data'][0].roadSideCodeNm);
 
+                setLandArea(response['data'][0].lndpclAr);
+                setLandPrice(response['data'][0].pblntfPclnd);
+                setLandProp(response['data'][0].prposArea1Nm);
+                setLandSpeLand(response['data'][0].regstrSeCodeNm);
+                console.log("@@@@@@@@ = ", getLandSpeLand);
 
-                const aa = response['data'][0].pblntfPclnd;
                 // @ts-ignore
                 document.getElementById("regstrSeCode").innerHTML = response['data'][0].regstrSeCode;
                 // @ts-ignore
                 document.getElementById("regstrSeCodeNm").innerHTML = response['data'][0].regstrSeCodeNm;
                 // @ts-ignore
-                document.getElementById("pblntfPclnd").innerHTML = aa;
+                document.getElementById("pblntfPclnd").innerHTML = response['data'][0].pblntfPclnd;
                 // @ts-ignore
                 document.getElementById("lastUpdtDt").innerHTML = response['data'][0].lastUpdtDt;
                 // @ts-ignore
                 document.getElementById("lnadArea").innerHTML = response['data'][0].lndpclAr;
                 // @ts-ignore
-                document.getElementById("landName").innerHTML = response['data'][0].lndcgrCodeNm;
+                const aaa = document.getElementById("landName").innerHTML = response['data'][0].lndcgrCodeNm;
                 // @ts-ignore
                 document.getElementById("landType").innerHTML = response['data'][0].prposArea1Nm;
                 // @ts-ignore
@@ -294,6 +305,8 @@ const KaKaoMap: FC = () => {
                 document.getElementById("landShape").innerHTML = response['data'][0].tpgrphHgCodeNm;
                 // @ts-ignore
                 document.getElementById("landRoad").innerHTML = response['data'][0].roadSideCodeNm;
+
+                setLandName(aaa);
 
             })
             .catch((error) => {
@@ -353,6 +366,28 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
+    },[getLandName, getLandArea, getLandPrice, getLandProp, getLandSpeLand]);
+
+    const onClick_Favorite = useCallback((e) => {
+        e.preventDefault();
+        console.log("Is it right? = ", getAddr);
+        console.log("Is it right? = ", getLandName);
+        console.log("Is it right? = ", getLandArea);
+        console.log("Is it right? = ", getLandPrice);
+        console.log("Is it right? = ", getLandProp);
+        console.log("Is it right? = ", getLandSpeLand);
+
+        const reqAPI = axios.post(
+            'http://localhost:1010/favorite/',
+            {
+                addr: getAddr, // 주소
+                landName: getLandName, // 지목
+                landArea: getLandArea, // 토지면적
+                landPrice: getLandPrice, // 공시지가
+                landType: getLandProp, // 용도
+                landSpecial: getLandSpeLand, // 특수지구분
+            }
+        )
     },[]);
 
     return (
@@ -367,8 +402,8 @@ const KaKaoMap: FC = () => {
                     <CancelBtn className="btn btn-default" onClick={onClickCancelBtn}>
                         <div className="glyphicon glyphicon-remove" />
                     </CancelBtn>
-                    <button type="button" className="btn btn-default">
-                        <span className="glyphicon glyphicon-star" aria-hidden="true"></span> Star
+                    <button type="button" className="btn btn-default" onClick={onClick_Favorite}>
+                        <span className="glyphicon glyphicon-star" aria-hidden="true"></span> 즐겨찾기
                     </button>
                     <table className="table table-hover">
                         <thead>

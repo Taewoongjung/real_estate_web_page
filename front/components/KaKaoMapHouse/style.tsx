@@ -7,8 +7,8 @@ export const MapScreen = styled.div`
   margin: 5px;
   padding: 10px;
   background-color: green;
-  width: 1100px;
-  height: 800px;
+  width: 50%;
+  height: 870px;
 `;
 
 export const Aside = styled.div`
@@ -18,8 +18,8 @@ export const Aside = styled.div`
   float: right;
   border: 1px solid #999;
   margin-top: 4px;
-  width: 800px;
-  height: 800px;
+  width: 47%;
+  height: 870px;
   background-color: aliceblue;
 `;
 
