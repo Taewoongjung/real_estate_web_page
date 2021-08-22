@@ -4,6 +4,8 @@ const parser = require('fast-xml-parser');
 const he = require('he');
 require('dotenv').config();
 
+const { isNotLoggedIn, isLoggedIn } = require("./middlewares");
+
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
@@ -152,5 +154,15 @@ router.get('/newsinfo', async(req, res, next) => {
 //        console.log(error);
 //    }
 // });
+
+router.post('/logout', isLoggedIn, (req, res, next) => {
+    try {
+        req.logout();
+        req.session.destroy();
+        res.send("logged out");
+    } catch (error) {
+        console.log(error);
+    }
+});
 
 module.exports = router;
