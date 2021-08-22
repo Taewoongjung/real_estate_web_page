@@ -9,6 +9,14 @@ declare global {
         pnu: string;
         si: string;
         dong: string;
+
+        // favorite api에 보낼 것들
+        Addr: string; // 주소
+        LandName: string; // 지목
+        LandArea: string; // 토지면적
+        LandPrice: string; // 공시지가
+        LandProp: string; // 용도
+        LandSpeLand: string // 특수지구분
     }
 }
 
@@ -19,18 +27,7 @@ const KaKaoMap: FC = () => {
     const [getDistrictMap, setDistrictMap] = useState(false);
     const [zIndex, setzIndex] = useState(0);
     const [getSecondData, setSecondData] = useState('');
-
-    // favorite api에 보낼 것들
-    const [getAddr, setAddr] = useState('');  // 주소
-    const [getLandName, setLandName] = useState('');  // 지목
-    const [getLandArea, setLandArea] = useState('');  // 토지면적
-    const [getLandPrice, setLandPrice] = useState('');  // 공시지가
-    const [getLandProp, setLandProp] = useState('');  // 용도
-    const [getLandSpeLand, setLandSpeLand] = useState('');  // 특수지구분
-
-    const [getData, setData] = useState('');
     const [responsedData, setResponsedData] = useState('');
-    const [getPnu, setPnu] = useState('');
 
     const aMap = useRef(null);
 
@@ -141,7 +138,6 @@ const KaKaoMap: FC = () => {
                         infowindow.open(map, marker);
                     }
                     window.adrr = result[0].address.address_name;
-                    setData(window.adrr);
                 })
             })
 
@@ -197,8 +193,6 @@ const KaKaoMap: FC = () => {
                 window.si = response.data['documents'][0]['address']['region_1depth_name'];
                 window.dong = response.data['documents'][0]['address']['region_2depth_name'];
 
-                console.log("@!!! = ", window.si, window.dong);
-
                 // @ts-ignore
                 document.getElementById("jsonAddr").innerHTML = response.data['documents'][0]['address']['address_name'];
                 // @ts-ignore
@@ -206,8 +200,8 @@ const KaKaoMap: FC = () => {
                 // @ts-ignore
                 document.getElementById("jsonY").innerHTML = response.data['documents'][0]['address']['y'];
 
-                setAddr(`${response.data['documents'][0]['address']['address_name']}`);
-                console.log("@@!!!!!!  = ", getAddr);
+                window.Addr = response.data['documents'][0]['address']['address_name'];
+
                 /////////////////////////////////////////////////////////////////////
 
                 const main =  response.data['documents'][0]['address']['main_address_no'];
@@ -253,14 +247,11 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
-    },[getAddr]);
+    },[]);
 
     const onClick_second = useCallback(async(e) => {
         e.preventDefault();
         console.log("got PNU = ", window.pnu);
-        setPnu(window.pnu);
-        console.log('!', window.pnu);
-        console.log(typeof (window.pnu));
 
         const requestData = await axios.get(
             'http://localhost:1010/api/reinfo',
@@ -279,11 +270,13 @@ const KaKaoMap: FC = () => {
                 console.log("토지이용상황 = ", response['data'][0].ladUseSittnNm);
                 console.log("도로측면 = ", response['data'][0].roadSideCodeNm);
 
-                setLandArea(response['data'][0].lndpclAr);
-                setLandPrice(response['data'][0].pblntfPclnd);
-                setLandProp(response['data'][0].prposArea1Nm);
-                setLandSpeLand(response['data'][0].regstrSeCodeNm);
-                console.log("@@@@@@@@ = ", getLandSpeLand);
+                const landName = response['data'][0].lndcgrCodeNm;
+
+                window.LandName = landName;
+                window.LandArea = response['data'][0].lndpclAr;
+                window.LandPrice = response['data'][0].pblntfPclnd;
+                window.LandProp = response['data'][0].prposArea1Nm;
+                window.LandSpeLand = response['data'][0].regstrSeCodeNm;
 
                 // @ts-ignore
                 document.getElementById("regstrSeCode").innerHTML = response['data'][0].regstrSeCode;
@@ -296,7 +289,7 @@ const KaKaoMap: FC = () => {
                 // @ts-ignore
                 document.getElementById("lnadArea").innerHTML = response['data'][0].lndpclAr;
                 // @ts-ignore
-                const aaa = document.getElementById("landName").innerHTML = response['data'][0].lndcgrCodeNm;
+                document.getElementById("landName").innerHTML = response['data'][0].lndcgrCodeNm;
                 // @ts-ignore
                 document.getElementById("landType").innerHTML = response['data'][0].prposArea1Nm;
                 // @ts-ignore
@@ -305,8 +298,6 @@ const KaKaoMap: FC = () => {
                 document.getElementById("landShape").innerHTML = response['data'][0].tpgrphHgCodeNm;
                 // @ts-ignore
                 document.getElementById("landRoad").innerHTML = response['data'][0].roadSideCodeNm;
-
-                setLandName(aaa);
 
             })
             .catch((error) => {
@@ -366,26 +357,19 @@ const KaKaoMap: FC = () => {
             .catch((error) => {
                 console.log(error);
             });
-    },[getLandName, getLandArea, getLandPrice, getLandProp, getLandSpeLand]);
+    },[]);
 
     const onClick_Favorite = useCallback((e) => {
         e.preventDefault();
-        console.log("Is it right? = ", getAddr);
-        console.log("Is it right? = ", getLandName);
-        console.log("Is it right? = ", getLandArea);
-        console.log("Is it right? = ", getLandPrice);
-        console.log("Is it right? = ", getLandProp);
-        console.log("Is it right? = ", getLandSpeLand);
-
         const reqAPI = axios.post(
             'http://localhost:1010/favorite/',
             {
-                addr: getAddr, // 주소
-                landName: getLandName, // 지목
-                landArea: getLandArea, // 토지면적
-                landPrice: getLandPrice, // 공시지가
-                landType: getLandProp, // 용도
-                landSpecial: getLandSpeLand, // 특수지구분
+                addr: window.Addr, // 주소
+                landName: window.LandName, // 지목
+                landArea: window.LandArea, // 토지면적
+                landPrice: window.LandPrice, // 공시지가
+                landType: window.LandProp, // 용도
+                landSpecial: window.LandSpeLand, // 특수지구분
             }
         )
     },[]);
