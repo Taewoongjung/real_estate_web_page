@@ -14,6 +14,7 @@ const { sequelize } = require('./models');
 const passportConfig = require("./passport");
 const authRouter = require("./routes/auth");
 const apiRouter = require("./routes/api");
+const favoriteRouter = require("./routes/favorite");
 
 const app = express();
 app.set("PORT", process.env.PORT || 1010);
@@ -63,6 +64,8 @@ app.use(passport.session());
 
 app.use("/auth", authRouter);
 app.use("/api", apiRouter);
+app.use("/favorite", favoriteRouter);
+
 app.get("*", (req, res, next) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });

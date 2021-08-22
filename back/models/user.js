@@ -32,6 +32,6 @@ module.exports = class User extends Model {
         });
     }
     static associate(db) {
-        db.User.hasMany(db.Like);
+        db.User.hasMany(db.Like, { as:'Owner' });
     }
 };
