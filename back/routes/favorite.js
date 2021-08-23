@@ -12,8 +12,12 @@ router.get('/find', async(req, res, next) => {
         const { userId } = req.query;
         console.log("req query = ", req.query);
 
-        const FindLikes = await Like.findAll({ where: { UserId: userId}});
-        console.log("/favorite result = ", FindLikes);
+        const [FindLikes] = await Promise.all([
+            Like.findAll({
+                where: { UserId: userId}
+            })
+        ]);
+        console.log("/favorite result1 = ", FindLikes);
 
         return res.send(FindLikes);
     } catch (error) {
