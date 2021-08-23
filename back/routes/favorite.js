@@ -6,9 +6,24 @@ const { Like } = require("../models");
 
 const router = express.Router();
 
+router.get('/find', async(req, res, next) => {
+    try {
+        console.log("/favorite/find 진입");
+        const { userId } = req.query;
+        console.log("req query = ", req.query);
+
+        const FindLikes = await Like.findAll({ where: { UserId: userId}});
+        console.log("/favorite result = ", FindLikes);
+
+        return res.send(FindLikes);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 router.post('/it', async(req, res, next) => {
     try {
-        console.log("/favorite 진입");
+        console.log("/favorite/it 진입");
         const { isItLand, chungYak, addr, landName, landArea, landPrice, landType, landSpecial, user } = req.body;
         console.log("req body = ", req.body);
 
