@@ -30,5 +30,5 @@ export const TableBox = styled.div`
 `;
 
 export const Table = styled.table`
-  width: 70%;
+  width: 100%;
 `;

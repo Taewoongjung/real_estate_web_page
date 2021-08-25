@@ -149,24 +149,25 @@ const KaKaoMapFavorite: VFC = () => {
                             <Table className="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th style={{fontSize: 10}} datatype='id'>번호</th>
-                                        <th style={{fontSize: 10}}>주소</th>
-                                        <th style={{fontSize: 10}}>지목</th>
-                                        <th style={{fontSize: 10}}>면적</th>
-                                        <th style={{fontSize: 10}}>공시지가</th>
-                                        <th style={{fontSize: 10}}>용도</th>
-                                        <th style={{fontSize: 10}}>특수지구분</th>
+                                        <th style={{fontSize: 12}} datatype='id'>번호</th>
+                                        <th style={{fontSize: 12}}>주소</th>
+                                        <th style={{fontSize: 12}}>지목</th>
+                                        <th style={{fontSize: 12}}>면적</th>
+                                        <th style={{fontSize: 12}}>공시지가</th>
+                                        <th style={{fontSize: 12}}>용도</th>
+                                        <th style={{fontSize: 12}}>특수지구분</th>
                                     </tr>
                                     </thead>
                                 <tbody>
-                                {Object.keys(getName).map((keyName, index ) =>
+                                {Object.keys(getName).map((keyName:any, index:any ) =>
                                     <tr>
-                                            <td key={index}> {getName[0]}</td>
-                                            {/*<td>112</td>*/}
-                                            {/*<td>aasadasdsdfdfsfsdsdfdfsfsdsdfdfsfsfdsdsad</td>*/}
-                                            {/*<td>aaaasd</td>*/}
-                                            {/*<td>asaas</td>*/}
-                                            {/*<td>asas</td>*/}
+                                            <td key="unique1"> {index+1}</td>
+                                            <td key="unique2"> {getName[index][0]}</td>
+                                            <td key="unique3"> {getName[index][1]}</td>
+                                            <td key="unique4"> {getName[index][2]}</td>
+                                            <td key="unique5"> {getName[index][3]}</td>
+                                            <td key="unique6"> {getName[index][4]}</td>
+                                            <td key="unique7"> {getName[index][5]}</td>
                                     </tr>
                                 )}
                                 </tbody>
