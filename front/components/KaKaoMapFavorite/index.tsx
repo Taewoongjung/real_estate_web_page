@@ -117,14 +117,6 @@ const KaKaoMapFavorite: VFC = () => {
     console.log("aaaa = ",aa);
     console.log("bbbb = ",aa.length);
 
-    const clickDelete = useCallback((params) => {
-        console.log("clickedDelete");
-        console.log(" data = ", params);
-        return () => {
-            console.log("return?? = ", params);
-        }
-    },[]);
-
     return (
         <>
             <MapScreen id="map" ref={aMap} />
@@ -163,7 +155,10 @@ const KaKaoMapFavorite: VFC = () => {
                                             <td key="unique6"> {getName[index][4]}</td>
                                             <td key="unique7"> {getName[index][3]}</td>
                                             <td key="unique8"> <button onClick={() => (
-                                                console.log(getName[index])
+                                                axios.post('http://localhost:1010/favorite/delete', {
+                                                    addr: getName[index]
+                                                }),
+                                                setLand(false)
                                             )}>삭제</button></td>
                                     </tr>
                                 )}
