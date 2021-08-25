@@ -19,14 +19,16 @@ export const Aside = styled.div`
   width: 41%;
   height: 800px;
   background-color: aliceblue;
+  //background-color: #ECE9E6;
   padding: 5px;
 `;
 
 export const TableBox = styled.div`
   background-color: white;
-  width: 70%;
-  height:500px;
+  width: 100%;
+  height:300px;
   margin: 10px;
+  z-index: 113;
 `;
 
 export const Table = styled.table`

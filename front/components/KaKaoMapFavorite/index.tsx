@@ -4,6 +4,7 @@ import {Aside, MapScreen, Table, TableBox} from "./style";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 import {aaa} from "@typings/db";
+import Scrollbars from "react-custom-scrollbars";
 
 declare global {
     interface Window {
@@ -130,6 +131,7 @@ const KaKaoMapFavorite: VFC = () => {
                     </div>
                 </div>
                 {getLand &&
+                <Scrollbars style={{height: 300, backgroundColor: "white"}}>
                     <div>
                         <TableBox>
                             <Table className="table table-bordered">
@@ -154,7 +156,7 @@ const KaKaoMapFavorite: VFC = () => {
                                             <td key="unique5"> {getName[index][2]}</td>
                                             <td key="unique6"> {getName[index][4]}</td>
                                             <td key="unique7"> {getName[index][3]}</td>
-                                            <td key="unique8"> <button onClick={() => (
+                                            <td key="uniqeu8"> <button onClick={() => (
                                                 axios.post('http://localhost:1010/favorite/delete', {
                                                     addr: getName[index]
                                                 }),
@@ -166,6 +168,7 @@ const KaKaoMapFavorite: VFC = () => {
                             </Table>
                         </TableBox>
                     </div>
+                </Scrollbars>
                 }
             </Aside>
         </>
