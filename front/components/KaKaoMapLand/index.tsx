@@ -373,8 +373,6 @@ const KaKaoMapLand: VFC = () => {
 
     const onClick_Favorite = useCallback((e) => {
         e.preventDefault();
-        console.log("data = ", data.id);
-        const ID = data.id;
         const reqAPI = axios.post(
             `http://localhost:1010/favorite/it/`,
             {

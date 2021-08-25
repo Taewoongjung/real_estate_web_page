@@ -111,26 +111,20 @@ const KaKaoMapFavorite: VFC = () => {
             });
     },[getName]);
 
-    const renderTable = (index: any) => {
-        // console.log("aaaa = ",aa[2]);
-    console.log('?? = ', getName);
-        return (
-            <tr key={index}>
-                <td>{  }</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        )
-    }
     console.log('?? = ', getName);
     console.log('type = ', typeof(getName));
     console.log(aa);
     console.log("aaaa = ",aa);
     console.log("bbbb = ",aa.length);
+
+    const clickDelete = useCallback((params) => {
+        console.log("clickedDelete");
+        console.log(" data = ", params);
+        return () => {
+            console.log("return?? = ", params);
+        }
+    },[]);
+
     return (
         <>
             <MapScreen id="map" ref={aMap} />
@@ -162,12 +156,15 @@ const KaKaoMapFavorite: VFC = () => {
                                 {Object.keys(getName).map((keyName:any, index:any ) =>
                                     <tr>
                                             <td key="unique1"> {index+1}</td>
-                                            <td key="unique2"> {getName[index][0]}</td>
-                                            <td key="unique3"> {getName[index][1]}</td>
-                                            <td key="unique4"> {getName[index][2]}</td>
-                                            <td key="unique5"> {getName[index][3]}</td>
+                                            <td key="unique2"> {getName[index][5]}</td>
+                                            <td key="unique3"> {getName[index][0]}</td>
+                                            <td key="unique4"> {getName[index][1]}</td>
+                                            <td key="unique5"> {getName[index][2]}</td>
                                             <td key="unique6"> {getName[index][4]}</td>
-                                            <td key="unique7"> {getName[index][5]}</td>
+                                            <td key="unique7"> {getName[index][3]}</td>
+                                            <td key="unique8"> <button onClick={() => (
+                                                console.log(getName[index])
+                                            )}>삭제</button></td>
                                     </tr>
                                 )}
                                 </tbody>
