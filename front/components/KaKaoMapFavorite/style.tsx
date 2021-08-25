@@ -28,7 +28,7 @@ export const TableBox = styled.div`
   width: 100%;
   height:300px;
   margin: 10px;
-  z-index: 113;
+  border-radius: 6px;
 `;
 
 export const Table = styled.table`

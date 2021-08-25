@@ -18,13 +18,16 @@ const KaKaoMapFavorite: VFC = () => {
 
     window.DataId = data?.id;
     console.log("id 확인 = ", window.DataId);
-    const[getLand, setLand] = useState(false);
+
+    const [place, setPlace] = useState('');
+    const [getLand, setLand] = useState(false);
+    const [getLevel, setLevel] = useState(false);
     const aMap = useRef(null);
 
     useEffect(()=> {
         let options = {
             center: new window.kakao.maps.LatLng(37.531427643208275, 127.0619991033721),
-            level: 7
+            level: getLevel ? 3 : 7
         };
 
         let map = new window.kakao.maps.Map(aMap.current, options);
@@ -60,7 +63,34 @@ const KaKaoMapFavorite: VFC = () => {
         var geocoder = new window.kakao.maps.services.Geocoder(); // 주소-좌표 변환 객체를 생성합니다
         var marker = new window.kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
             infowindow = new window.kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-    },[]);
+
+        // 주소로 좌표를 검색합니다
+        console.log("setPlace in useEffect = ", place)
+        geocoder.addressSearch(place, function(result: any, status: any) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === window.kakao.maps.services.Status.OK) {
+
+                var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new window.kakao.maps.Marker({
+                    map: map,
+                    position: coords,
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new window.kakao.maps.InfoWindow({
+                    content: `<div style="width:150px;text-align:center;padding:6px 0;">${place}</div>`
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            }
+        });
+
+    },[place]);
 
     const [getName, setName] = useState(Object);
     const [aa, bb] = useState(Object);
@@ -112,11 +142,11 @@ const KaKaoMapFavorite: VFC = () => {
             });
     },[getName]);
 
-    console.log('?? = ', getName);
-    console.log('type = ', typeof(getName));
-    console.log(aa);
-    console.log("aaaa = ",aa);
-    console.log("bbbb = ",aa.length);
+    // console.log('?? = ', getName);
+    // console.log('type = ', typeof(getName));
+    // console.log(aa);
+    // console.log("aaaa = ",aa);
+    // console.log("bbbb = ",aa.length);
 
     return (
         <>
@@ -131,7 +161,7 @@ const KaKaoMapFavorite: VFC = () => {
                     </div>
                 </div>
                 {getLand &&
-                <Scrollbars style={{height: 300, backgroundColor: "white"}}>
+                <Scrollbars autoHide autoHideTimeout={500} autoHideDuration={200} style={{height: 300, backgroundColor: "white"}}>
                     <div>
                         <TableBox>
                             <Table className="table table-bordered">
@@ -148,7 +178,13 @@ const KaKaoMapFavorite: VFC = () => {
                                     </thead>
                                 <tbody>
                                 {Object.keys(getName).map((keyName:any, index:any ) =>
-                                    <tr>
+                                    <tr onClick={() => (
+                                        console.log(getName[index][5]),
+                                        console.log("type = ", typeof(getName[index][5])),
+                                        setPlace(getName[index][5]),
+                                        console.log("내부에 setPlace = ", place),
+                                        setLevel(true)
+                                    )}>
                                             <td key="unique1"> {index+1}</td>
                                             <td key="unique2"> {getName[index][5]}</td>
                                             <td key="unique3"> {getName[index][0]}</td>
