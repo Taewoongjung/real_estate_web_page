@@ -9,6 +9,7 @@ import Scrollbars from "react-custom-scrollbars";
 declare global {
     interface Window {
         DataId: string;
+        Address: string;
     }
 }
 
@@ -20,6 +21,7 @@ const KaKaoMapFavorite: VFC = () => {
     console.log("id 확인 = ", window.DataId);
 
     const [place, setPlace] = useState('');
+    const [news, setNews] = useState(false);
     const [getLand, setLand] = useState(false);
     const [getLevel, setLevel] = useState(false);
     const aMap = useRef(null);
@@ -65,7 +67,16 @@ const KaKaoMapFavorite: VFC = () => {
             infowindow = new window.kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
 
         // 주소로 좌표를 검색합니다
-        console.log("setPlace in useEffect = ", place)
+        console.log("setPlace in useEffect = ", place.split(' ', 3));
+        const addr = place.split(' ', 3);
+
+        const fullAddr = addr.join(' ');
+        console.log("isitright? = ", fullAddr);
+
+        window.Address = fullAddr;
+
+        console.log("addr in useEffect = ", addr);
+        // setPlaceForNews(addr);
         geocoder.addressSearch(place, function(result: any, status: any) {
 
             // 정상적으로 검색이 완료됐으면
@@ -89,21 +100,68 @@ const KaKaoMapFavorite: VFC = () => {
                 map.setCenter(coords);
             }
         });
+        const requestNews = axios.get(
+            'http://localhost:1010/api/newsinfo_favorite',
+            {
+                params: {
+                    address: window.Address,
+                }
+            })
+            .then((response)=>{
+                console.log(response.data);
+                const data = response.data.items[0];
+                console.log("responsed data = ", data);
+
+                // first
+
+                // @ts-ignore
+                document.getElementById("title_fir").innerHTML = response.data.items[0]['title'];
+                // @ts-ignore
+                document.getElementById("image_fir").href = response.data.items[0]['link'];
+                // @ts-ignore
+                document.getElementById("content_fir").innerHTML = response.data.items[0]['description'];
+
+                // second
+
+                // @ts-ignore
+                document.getElementById("title_sec").innerHTML = response.data.items[1]['title'];
+                // @ts-ignore
+                document.getElementById("image_sec").href = response.data.items[1]['link'];
+                // @ts-ignore
+                document.getElementById("content_sec").innerHTML = response.data.items[1]['description'];
+
+                // third
+
+                // @ts-ignore
+                document.getElementById("title_trd").innerHTML = response.data.items[2]['title'];
+                // @ts-ignore
+                document.getElementById("image_trd").href = response.data.items[2]['link'];
+                // @ts-ignore
+                document.getElementById("content_trd").innerHTML = response.data.items[2]['description'];
+
+                // fourth
+
+                // @ts-ignore
+                document.getElementById("title_frh").innerHTML = response.data.items[3]['title'];
+                // @ts-ignore
+                document.getElementById("image_frh").href = response.data.items[3]['link'];
+                // @ts-ignore
+                document.getElementById("content_frh").innerHTML = response.data.items[3]['description'];
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
     },[place]);
 
     const [getName, setName] = useState(Object);
-    const [aa, bb] = useState(Object);
-    const [area, setArea] = useState([]);
-    const [price, setPrice] = useState([]);
-    const [type, setType] = useState([]);
-    const [special, setSpecial] = useState([]);
-    const [address, setAddress] = useState([]);
 
     const landClicked = useCallback((e) => {
         console.log("id 확인2 = ", window.DataId);
         e.preventDefault();
         setLand((prev) => !prev);
+        setNews(false);
         const backReq = axios.get('http://localhost:1010/favorite/find', {
             params: {
                 userId: window.DataId
@@ -142,12 +200,6 @@ const KaKaoMapFavorite: VFC = () => {
             });
     },[getName]);
 
-    // console.log('?? = ', getName);
-    // console.log('type = ', typeof(getName));
-    // console.log(aa);
-    // console.log("aaaa = ",aa);
-    // console.log("bbbb = ",aa.length);
-
     return (
         <>
             <MapScreen id="map" ref={aMap} />
@@ -161,7 +213,7 @@ const KaKaoMapFavorite: VFC = () => {
                     </div>
                 </div>
                 {getLand &&
-                <Scrollbars autoHide autoHideTimeout={500} autoHideDuration={200} style={{height: 300, backgroundColor: "white"}}>
+                <Scrollbars autoHide autoHideTimeout={500} autoHideDuration={200} style={{height: 300, backgroundColor: "white", marginBottom: 20}}>
                     <div>
                         <TableBox>
                             <Table className="table table-bordered">
@@ -183,7 +235,8 @@ const KaKaoMapFavorite: VFC = () => {
                                         console.log("type = ", typeof(getName[index][5])),
                                         setPlace(getName[index][5]),
                                         console.log("내부에 setPlace = ", place),
-                                        setLevel(true)
+                                        setLevel(true),
+                                        setNews(true)
                                     )}>
                                             <td key="unique1"> {index+1}</td>
                                             <td key="unique2"> {getName[index][5]}</td>
@@ -206,6 +259,40 @@ const KaKaoMapFavorite: VFC = () => {
                     </div>
                 </Scrollbars>
                 }
+                { getLand && news && <div className="row">
+                    <div className="col-xs-6 col-md-3">
+                        <a id="image_fir" href="#" className="thumbnail">
+                            <div className="caption">
+                                <h3 id="title_fir"></h3>
+                                <p id="content_fir"></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        <a id="image_sec" href="#" className="thumbnail">
+                            <div className="caption">
+                                <h3 id="title_sec"></h3>
+                                <p id="content_sec"></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        <a id="image_trd" href="#" className="thumbnail">
+                            <div className="caption">
+                                <h3 id="title_trd"></h3>
+                                <p id="content_trd"></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div className="col-xs-6 col-md-3">
+                        <a id="image_frh" href="#" className="thumbnail">
+                            <div className="caption">
+                                <h3 id="title_frh"></h3>
+                                <p id="content_frh"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div> }
             </Aside>
         </>
     )

@@ -8,7 +8,7 @@ export const MapScreen = styled.div`
   padding: 10px;
   background-color: green;
   width: 57%;
-  height: 800px;
+  height: 830px;
 `;
 
 export const Aside = styled.div`
@@ -17,7 +17,7 @@ export const Aside = styled.div`
   border: 1px solid #999;
   margin-top: 4px;
   width: 41%;
-  height: 800px;
+  height: 830px;
   background-color: aliceblue;
   //background-color: #ECE9E6;
   padding: 5px;
@@ -29,6 +29,7 @@ export const TableBox = styled.div`
   height:300px;
   margin: 10px;
   border-radius: 6px;
+  padding-bottom: 100px;
 `;
 
 export const Table = styled.table`
