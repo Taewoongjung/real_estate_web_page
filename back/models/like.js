@@ -35,6 +35,11 @@ module.exports = class Like extends Model {
             landSpecial: {
                 type: DataTypes.STRING(50),
                 allowNull: true,
+            },
+            show: {
+                type: DataTypes.STRING(5),
+                allowNull: true,
+                default: 0,
             }
         },{
             sequelize,
