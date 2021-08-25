@@ -56,9 +56,13 @@ const KaKaoMapHouse = () => {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>Email</th>
+                                <th>번호</th>
+                                <th>주소</th>
+                                <th>지목</th>
+                                <th>면적</th>
+                                <th>공시지가</th>
+                                <th>용도</th>
+                                <th>특수지구분</th>
                             </tr>
                         </thead>
                         <tbody>

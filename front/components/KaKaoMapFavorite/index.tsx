@@ -1,10 +1,23 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState, VFC} from 'react';
 import axios from "axios";
-import {Aside, MapScreen} from "./style";
+import {Aside, MapScreen, Table, TableBox} from "./style";
+import useSWR from "swr";
+import fetcher from "@utils/fetcher";
+import {aaa} from "@typings/db";
 
-const KaKaoMapFavorite = () => {
+declare global {
+    interface Window {
+        DataId: string;
+    }
+}
 
-    const[getLand, setLand] = useState(false );
+const KaKaoMapFavorite: VFC = () => {
+    const {data, error, mutate} = useSWR('http://localhost:1010/auth/', fetcher);
+    console.log("favorite 로그인 데이타 = ", data);
+
+    window.DataId = data?.id;
+    console.log("id 확인 = ", window.DataId);
+    const[getLand, setLand] = useState(false);
     const aMap = useRef(null);
 
     useEffect(()=> {
@@ -46,15 +59,78 @@ const KaKaoMapFavorite = () => {
         var geocoder = new window.kakao.maps.services.Geocoder(); // 주소-좌표 변환 객체를 생성합니다
         var marker = new window.kakao.maps.Marker(), // 클릭한 위치를 표시할 마커입니다
             infowindow = new window.kakao.maps.InfoWindow({zindex:1}); // 클릭한 위치에 대한 주소를 표시할 인포윈도우입니다
-
-
     },[]);
+
+    const [getName, setName] = useState(Object);
+    const [aa, bb] = useState(Object);
+    const [area, setArea] = useState([]);
+    const [price, setPrice] = useState([]);
+    const [type, setType] = useState([]);
+    const [special, setSpecial] = useState([]);
+    const [address, setAddress] = useState([]);
 
     const landClicked = useCallback((e) => {
-        e.stopPropagation();
+        console.log("id 확인2 = ", window.DataId);
+        e.preventDefault();
         setLand((prev) => !prev);
-    },[]);
+        const backReq = axios.get('http://localhost:1010/favorite/find', {
+            params: {
+                userId: window.DataId
+            }
+        })
+            .then((res) => {
+                console.log("axios = ", res.data.length);
+                console.log("axios data1= ", res.data[0]);
+                console.log("axios data2= ", res.data[1]);
+                var arr = new Array(res.data.length);
+                console.log("??! = ", arr);
 
+                let landName = new Array();
+                let landArea = new Array();
+                let landPrice = new Array();
+                let landType = new Array();
+                let landSpecial = new Array();
+                let address = new Array();
+                var full = [];
+
+                for(let i = 0; i < res.data.length; i++) {
+                    landName[i] = res.data[i].landName;
+                    console.log("type = ", typeof(landName[i]));
+
+                    landArea[i] = res.data[i].landArea;
+                    landPrice[i] = res.data[i].landPrice;
+                    landType[i]  = res.data[i].landType;
+                    landSpecial[i] = res.data[i].landSpecial;
+                    address[i] = res.data[i].address;
+                    console.log("^^ = ", landName[i], landArea[i], landPrice[i], landType[i], landSpecial[i], address[i] );
+                    full[i] = [landName[i], landArea[i], landPrice[i], landType[i], landSpecial[i], address[i]];
+                    console.log("array = ", full);
+                }
+                setName(full);
+                console.log("!! = ", getName);
+            });
+    },[getName]);
+
+    const renderTable = (index: any) => {
+        // console.log("aaaa = ",aa[2]);
+    console.log('?? = ', getName);
+        return (
+            <tr key={index}>
+                <td>{  }</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        )
+    }
+    console.log('?? = ', getName);
+    console.log('type = ', typeof(getName));
+    console.log(aa);
+    console.log("aaaa = ",aa);
+    console.log("bbbb = ",aa.length);
     return (
         <>
             <MapScreen id="map" ref={aMap} />
@@ -69,12 +145,38 @@ const KaKaoMapFavorite = () => {
                 </div>
                 {getLand &&
                     <div>
-                        aaa
+                        <TableBox>
+                            <Table className="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style={{fontSize: 10}} datatype='id'>번호</th>
+                                        <th style={{fontSize: 10}}>주소</th>
+                                        <th style={{fontSize: 10}}>지목</th>
+                                        <th style={{fontSize: 10}}>면적</th>
+                                        <th style={{fontSize: 10}}>공시지가</th>
+                                        <th style={{fontSize: 10}}>용도</th>
+                                        <th style={{fontSize: 10}}>특수지구분</th>
+                                    </tr>
+                                    </thead>
+                                <tbody>
+                                {Object.keys(getName).map((keyName, index ) =>
+                                    <tr>
+                                            <td key={index}> {getName[0]}</td>
+                                            {/*<td>112</td>*/}
+                                            {/*<td>aasadasdsdfdfsfsdsdfdfsfsdsdfdfsfsfdsdsad</td>*/}
+                                            {/*<td>aaaasd</td>*/}
+                                            {/*<td>asaas</td>*/}
+                                            {/*<td>asas</td>*/}
+                                    </tr>
+                                )}
+                                </tbody>
+                            </Table>
+                        </TableBox>
                     </div>
                 }
             </Aside>
         </>
     )
-}
+};
 
 export default KaKaoMapFavorite;

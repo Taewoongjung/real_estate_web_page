@@ -7,7 +7,7 @@ import fetcher from "@utils/fetcher";
 import axios from "axios";
 
 const SignUp = () => {
-    const {data, error, revalidate} = useSWR('http://localhost:1010/auth/', fetcher);
+    const {data, error, mutate} = useSWR('http://localhost:1010/auth/', fetcher);
     console.log("!!! = ", data);
     const [email, onChangeEmail] = useInput('');
     const [name, onChangeName] = useInput('');

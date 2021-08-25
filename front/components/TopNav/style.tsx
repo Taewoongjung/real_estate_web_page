@@ -67,6 +67,7 @@ export const ProfileImg = styled.img`
   position: absolute;
   top: 35px;
   right: 35px;
+  background-color: blue;
 `;
 
 export const RightMenu = styled.div`

@@ -7,8 +7,8 @@ import fetcher from "@utils/fetcher";
 import axios from "axios";
 
 const LogIn = () => {
-    const {data, error, revalidate} = useSWR('http://localhost:1010/auth/', fetcher);
-    console.log("@@@ = ", data);
+    const {data, error, revalidate, mutate} = useSWR('http://localhost:1010/auth/', fetcher);
+    console.log("로그인 페이지에 로그인 데이터 = ", data);
 
     const [email, onChangeEmail] = useInput('');
     const [password, onChangePassword] = useInput('');
@@ -25,8 +25,8 @@ const LogIn = () => {
                         withCredentials: true,
                     },
                 )
-                .then(() => {
-                    revalidate();
+                .then((response) => {
+                    mutate(response.data, false);
                 })
                 .catch((error) => {
                     setLogInError(error.response?.data?.statusCode === 401);
@@ -34,6 +34,10 @@ const LogIn = () => {
         },
         [email, password]
     );
+
+    if (data === undefined) {
+        return <div>로딩중...</div>
+    }
 
     if (data) {
         return <Redirect to="/main" />

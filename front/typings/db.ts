@@ -3,3 +3,7 @@ export interface IUser {
     nick: string;
     email: string;
 }
+
+export interface aaa {
+    name: string;
+}

@@ -1,6 +1,9 @@
-import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import React, {Props, useCallback, useEffect, useRef, useState, VFC} from 'react';
 import {Aside, BottomBox, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
 import axios from "axios";
+import useSWR from "swr";
+import fetcher from "@utils/fetcher";
+import {Redirect} from "react-router-dom";
 
 declare global {
     interface Window {
@@ -17,10 +20,17 @@ declare global {
         LandPrice: string; // 공시지가
         LandProp: string; // 용도
         LandSpeLand: string // 특수지구분
+
+        dataId: string;
     }
 }
 
-const KaKaoMap: FC = () => {
+const KaKaoMapLand: VFC = () => {
+    const {data, error,mutate} = useSWR('http://localhost:1010/auth/', fetcher);
+    console.log("컴포넌트 로그인 데이타 = ", data);
+
+    window.dataId = data.id;
+
     const [getTrracficMap, setTrraficMap] = useState(false);
     const [getRoadMap, setRoadMap] = useState(false);
     const [getTerrainMap, setTerrainMap] = useState(false);
@@ -56,6 +66,7 @@ const KaKaoMap: FC = () => {
     },[getDistrictMap]);
 
     useEffect(()=> {
+            mutate(data);
             let options = {
                 center: new window.kakao.maps.LatLng(37.531427643208275, 127.0619991033721),
                 level: 7
@@ -361,18 +372,27 @@ const KaKaoMap: FC = () => {
 
     const onClick_Favorite = useCallback((e) => {
         e.preventDefault();
+        console.log("data = ", data.id);
+        const ID = data.id;
         const reqAPI = axios.post(
-            'http://localhost:1010/favorite/',
+            `http://localhost:1010/favorite/it/`,
             {
+                isItLand: 'Land',
+                chungYak: '-',
                 addr: window.Addr, // 주소
                 landName: window.LandName, // 지목
                 landArea: window.LandArea, // 토지면적
                 landPrice: window.LandPrice, // 공시지가
                 landType: window.LandProp, // 용도
                 landSpecial: window.LandSpeLand, // 특수지구분
+                user:window.dataId,
             }
         )
     },[]);
+
+    if (!data) {
+        return <Redirect to="/login" />
+    }
 
     return (
         <>
@@ -526,4 +546,4 @@ const KaKaoMap: FC = () => {
     );
 }
 
-export default KaKaoMap;
+export default KaKaoMapLand;
