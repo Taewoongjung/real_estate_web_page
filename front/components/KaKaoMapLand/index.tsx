@@ -26,10 +26,12 @@ declare global {
 }
 
 const KaKaoMapLand: VFC = () => {
-    const {data, error,mutate} = useSWR('http://localhost:1010/auth/', fetcher);
+    const {data, error, revalidate, mutate} = useSWR('http://localhost:1010/auth/', fetcher,{
+        dedupingInterval: 2000,
+    });
     console.log("컴포넌트 로그인 데이타 = ", data);
 
-    window.dataId = data.id;
+    window.dataId = data?.id;
 
     const [getTrracficMap, setTrraficMap] = useState(false);
     const [getRoadMap, setRoadMap] = useState(false);
@@ -66,7 +68,6 @@ const KaKaoMapLand: VFC = () => {
     },[getDistrictMap]);
 
     useEffect(()=> {
-            mutate(data);
             let options = {
                 center: new window.kakao.maps.LatLng(37.531427643208275, 127.0619991033721),
                 level: 7
@@ -389,10 +390,6 @@ const KaKaoMapLand: VFC = () => {
             }
         )
     },[]);
-
-    if (!data) {
-        return <Redirect to="/login" />
-    }
 
     return (
         <>

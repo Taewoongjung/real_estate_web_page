@@ -63,7 +63,7 @@ const TopNav:VFC = () => {
                     <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="#" className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown">
                         땅 분석 <span className="caret"></span></a>
                         {navCollapse && <ul className="dropdown-menu" role="menu" aria-labelledby="dropdownCategoryMenu">
-                            <li><a href="/LandAnalyzation"> 공시지가</a></li>
+                            <li><a href="/main"> 공시지가</a></li>
                         </ul>}
                     </Toggle>
                     <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown"><a href="/news" >

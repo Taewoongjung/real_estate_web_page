@@ -1,9 +1,14 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Aside, MapScreen, TableBox} from "@components/KaKaoMapHouse/style";
+import useSWR from "swr";
+import fetcher from "@utils/fetcher";
 
 const KaKaoMapHouse = () => {
-
+    const {data, error} = useSWR('http://localhost:1010/auth/', fetcher,{
+        dedupingInterval: 2000,
+    });
+    console.log("컴포넌트 로그인 데이타 = ", data);
     const aMap = useRef(null);
 
     useEffect(()=> {
