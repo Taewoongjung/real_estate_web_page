@@ -19,9 +19,21 @@ const KaKaoMapHouse = () => {
 
         let map = new window.kakao.maps.Map(aMap.current, options);
 
+        function searchDetailAddrFromCoords(coords: any, callback: any) {
+            // 좌표로 법정동 상세 주소 정보를 요청합니다
+            geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+        }
+
         // 지도 중심 좌표 변화 이벤트를 등록한다
         window.kakao.maps.event.addListener(map, 'center_changed', function () {
-            console.log('지도의 중심 좌표는 ' + map.getCenter().toString() +' 입니다.');
+            const center = map.getCenter();
+            console.log("center = ", center);
+            searchDetailAddrFromCoords(center,function (result: any, status: any) {
+                if (status === window.kakao.maps.services.Status.OK) {
+                    console.log('지도의 중심 좌표는 ' + map.getCenter().toString() +' 입니다.');
+                    console.log('지도의 주소는 ' + result[0].address.address_name);
+                }
+            })
         });
 
         // 지도 시점 변화 완료 이벤트를 등록한다
@@ -64,10 +76,6 @@ const KaKaoMapHouse = () => {
                                 <th>번호</th>
                                 <th>주소</th>
                                 <th>지목</th>
-                                <th>면적</th>
-                                <th>공시지가</th>
-                                <th>용도</th>
-                                <th>특수지구분</th>
                             </tr>
                         </thead>
                         <tbody>
