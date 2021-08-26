@@ -9,6 +9,7 @@ export const MapScreen = styled.div`
   background-color: green;
   width: 50%;
   height: 870px;
+  z-index:1;
 `;
 
 export const Aside = styled.div`
