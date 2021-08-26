@@ -9,16 +9,12 @@ export const MapScreen = styled.div`
   background-color: green;
   width: 50%;
   height: 870px;
-  z-index:1;
 `;
 
 export const Aside = styled.div`
-  padding-top: 40px;
-  padding-left: 40px;
   position: relative;
   float: right;
   border: 1px solid #999;
-  margin-top: 4px;
   width: 47%;
   height: 870px;
   background-color: aliceblue;
@@ -26,6 +22,6 @@ export const Aside = styled.div`
 
 export const TableBox = styled.div`
   background-color: white;
-  width: 350px;
+  width: 100%;
   height:500px;
 `;

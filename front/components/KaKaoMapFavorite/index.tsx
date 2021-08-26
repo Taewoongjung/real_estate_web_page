@@ -200,6 +200,8 @@ const KaKaoMapFavorite: VFC = () => {
             });
     },[getName]);
 
+    console.log("getName type = ", typeof(getName));
+    console.log("getName type = ", getName);
     return (
         <>
             <MapScreen id="map" ref={aMap} />
