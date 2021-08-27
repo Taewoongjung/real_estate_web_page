@@ -3,10 +3,8 @@ import styled from "@emotion/styled";
 export const MapScreen = styled.div`
   grid-area: center;
   position: absolute;
-  border: 1px solid #999;
   margin: 5px;
   padding: 10px;
-  background-color: green;
   width: 100%;
   height: 900px;
 `;
