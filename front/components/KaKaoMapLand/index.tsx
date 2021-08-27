@@ -1,9 +1,9 @@
-import React, {Props, useCallback, useEffect, useRef, useState, VFC} from 'react';
-import {Aside, BottomBox, CancelBtn, CenterAxis, MapScreen, MapTypeBtn} from "./style";
+import React, {useCallback, useEffect, useRef, useState, VFC} from 'react';
+import {Aside, BottomBox, CancelBtn, CenterAxis, MapScreen, MapTypeBtn, SearchLandSpace} from "./style";
 import axios from "axios";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
-import {Redirect} from "react-router-dom";
+import useInput from "@hooks/useInput";
 
 declare global {
     interface Window {
@@ -33,6 +33,7 @@ const KaKaoMapLand: VFC = () => {
 
     window.dataId = data?.id;
 
+    const [words, onSetSearchWords] = useInput('');
     const [getTrracficMap, setTrraficMap] = useState(false);
     const [getRoadMap, setRoadMap] = useState(false);
     const [getTerrainMap, setTerrainMap] = useState(false);
@@ -395,6 +396,16 @@ const KaKaoMapLand: VFC = () => {
             <MapTypeBtn className="btn btn-default" onClick={onClickRoadMap}>도로정보</MapTypeBtn>
             <MapTypeBtn className="btn btn-default" onClick={onClickTerrainMap}>지형정보</MapTypeBtn>
             <MapTypeBtn className="btn btn-default" onClick={onCLickDistrictMap}>지적편집도</MapTypeBtn>
+            <SearchLandSpace className="col-lg-6">
+                <div className="input-group">
+                    <input type="text" className="form-control" placeholder="Search for..." onChange={onSetSearchWords}/>
+                    <span className="input-group-btn">
+                                <button className="btn btn-default" type="button" onClick={(e) => {
+                                    console.log(words);
+                                }}>Search</button>
+                            </span>
+                </div>
+            </SearchLandSpace>
             <MapScreen id="map" ref={aMap} />
             <div>
                 <Aside zIndex={zIndex}>

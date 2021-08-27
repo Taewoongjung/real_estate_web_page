@@ -46,5 +46,8 @@ export const BottomBox = styled.div<{zIndex:any}>`
   z-index: ${(props) => props.zIndex};
 `;
 
-export const Boxes = styled.div`
+export const SearchLandSpace = styled.div`
+  margin-right: 40%;
+  width: 370px;
+  float: right;
 `;
