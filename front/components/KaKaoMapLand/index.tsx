@@ -39,6 +39,7 @@ const KaKaoMapLand: VFC = () => {
     const [getTerrainMap, setTerrainMap] = useState(false);
     const [getDistrictMap, setDistrictMap] = useState(false);
     const [zIndex, setzIndex] = useState(0);
+    const [getFirstData, setFirstData] = useState(false);
     const [getSecondData, setSecondData] = useState('');
     const [responsedData, setResponsedData] = useState('');
 
@@ -186,7 +187,32 @@ const KaKaoMapLand: VFC = () => {
                     }
                 }
             }
-    },[getTrracficMap, getRoadMap, getTerrainMap, getDistrictMap]);
+
+        geocoder.addressSearch(words, function(result: any, status: any) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === window.kakao.maps.services.Status.OK) {
+
+                var coords = new window.kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new window.kakao.maps.Marker({
+                    map: map,
+                    position: coords,
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                // var infowindow = new window.kakao.maps.InfoWindow({
+                //     content: `<div style="width:150px;text-align:center;padding:6px 0;">${words}</div>`
+                // });
+                // infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            }
+        });
+
+    },[getTrracficMap, getRoadMap, getTerrainMap, getDistrictMap, words]);
 
     const onClickCancelBtn = () => {
         setzIndex(0);
@@ -200,6 +226,7 @@ const KaKaoMapLand: VFC = () => {
             })
             .then(response => {
                 setResponsedData(response.data);
+                setSecondData('');
                 console.log("first Info");
                 console.log(response.data);
 
@@ -265,7 +292,7 @@ const KaKaoMapLand: VFC = () => {
     const onClick_second = useCallback(async(e) => {
         e.preventDefault();
         console.log("got PNU = ", window.pnu);
-
+        setFirstData(true);
         const requestData = await axios.get(
             'http://localhost:1010/api/reinfo',
             {
@@ -276,7 +303,7 @@ const KaKaoMapLand: VFC = () => {
             })
             .then(response => {
                 console.log("second Info");
-
+                setFirstData(false);
                 setSecondData(response.data);
 
                 console.log("지형형상 = ", response['data'][0].tpgrphHgCodeNm);
@@ -448,6 +475,9 @@ const KaKaoMapLand: VFC = () => {
                                 {responsedData && <button type="button" className="btn btn-success" onClick={onClick_second}>공시지가 확인</button>}
                             </td>
                         </tr>
+                        {!getSecondData && getFirstData &&
+                            <div>Data is comming...</div>
+                        }
                         {getSecondData && <>
                             <tr>
                                 <td>특수지구분명:</td>
