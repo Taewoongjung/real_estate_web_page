@@ -4,12 +4,12 @@ export const Container = styled.div`
   display: grid;
   grid-template-columns: 0.8fr 1.4fr 0.8fr;
   grid-template-rows: 0.1fr 1.6fr 1.6fr 1.6fr 0.1fr;
-  gap: 0px 17px;
+  gap: 17px 17px;
   grid-template-areas: 
     ". . ."
     "left_top center right_top"
     "left center right"
-    ". bottom ."
+    "left_bottom bottom right_bottom"
     ". . .";
   justify-content: center;
   align-content: center;
@@ -21,23 +21,28 @@ export const Container = styled.div`
 
 export const LeftTopNews = styled.div`
   grid-area: left_top;
-
+  height: 300px;
+  width: 300px;
 `;
 export const LeftNews = styled.div`
   grid-area: left;
-
+  height: 300px;
+  width: 300px;
 `;
 export const LeftBottomNews = styled.div`
   grid-area: left_bottom;
-
+  height: 300px;
+  width: 300px;
 `;
 export const BottomNews = styled.div`
   grid-area: bottom;
-
+  height: 300px;
+  width: 500px;
 `;
 export const RightBottomNews = styled.div`
-  grid-area: ;
-
+  grid-area: right_bottom;
+  height: 300px;
+  width: 300px;
 `;
 export const RightNews = styled.div`
   grid-area: right;
@@ -61,7 +66,7 @@ export const MapScreenSpace = styled.div`
 export const MapScreenInNews = styled.div`
   grid-area: center;
   width: 100%;
-  height: 100%;
+  height: 90%;
 `;
 
 export const SearchSpace = styled.div`

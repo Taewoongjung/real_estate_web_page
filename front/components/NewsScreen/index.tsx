@@ -1,10 +1,10 @@
 import React, {useEffect, useRef} from 'react';
 import {
     BottomNews,
-    Container,
+    Container, LeftBottomNews, LeftNews,
     LeftTopNews,
     MapScreenInNews,
-    MapScreenSpace, RightNews,
+    MapScreenSpace, RightBottomNews, RightNews,
     RightTopNews
 } from "@components/NewsScreen/style";
 import TopNav from "@components/TopNav";
@@ -42,8 +42,66 @@ const NewsScreen = () => {
                         </div>
                     </div>
                 </LeftTopNews>
+                <LeftNews>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <a href="#" className="thumbnail">
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                            </a>
+                        </div>
+                    </div>
+                </LeftNews>
+                <LeftBottomNews>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <a href="#" className="thumbnail">
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                            </a>
+                        </div>
+                    </div>
+                </LeftBottomNews>
                 <BottomNews>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <a href="#" className="thumbnail">
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                            </a>
+                        </div>
+                    </div>
                 </BottomNews>
+                <RightBottomNews>
+                    <div className="row">
+                        <div className="col-xs-6 col-md-3">
+                            <a href="#" className="thumbnail">
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                                asdasdasdasdasdasdasdasdas
+                            </a>
+                        </div>
+                    </div>
+                </RightBottomNews>
                 <RightTopNews>
                     <div className="row">
                         <div className="col-xs-6 col-md-3">
