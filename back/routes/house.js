@@ -28,8 +28,9 @@ router.get('/', async(req, res, next) => {
                 // console.log(response.data.contents);
                 const resultString = response.data.contents;
                 // console.log("result = ", xmlParser.toJson(resultString));
-                const innerData = xmlParser.toJson(resultString);
+                const innerData = xmlParser.toJson(resultString.response['items']);
                 console.log(innerData);
+                // ['response']['body']['items']['item']
                 // return res.send(xmlParser.toJson(resultString));
             });
     } catch (error) {
