@@ -26,9 +26,11 @@ router.get('/', async(req, res, next) => {
         )
             .then((response) => {
                 // console.log(response.data.contents);
-                var resultString = response.data.contents;
-                console.log("result = ", xmlParser.toJson(resultString));
-                return res.send(xmlParser.toJson(resultString));
+                const resultString = response.data.contents;
+                // console.log("result = ", xmlParser.toJson(resultString));
+                const innerData = xmlParser.toJson(resultString);
+                console.log(innerData);
+                // return res.send(xmlParser.toJson(resultString));
             });
     } catch (error) {
         console.log(error);
