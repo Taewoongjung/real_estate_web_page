@@ -134,21 +134,24 @@ const KaKaoMapHouse = () => {
                 }
             })
             .then((response)=>{
-                console.log(response.data['response']['body']['items']['item']);
-                const JsonArray = response.data['response']['body']['items']['item'];
-                // console.log(JsonArray);
-                var newArray = new Array();
-                Object.keys(JsonArray).map((keyName:any, index:any ) => {
-                    // console.log(index);
-                    console.log(JsonArray[index]);
-                    newArray.push([JsonArray[index]['아파트'], JsonArray[index]['지번'], JsonArray[index]['법정동']]);
-                    setAddress(String(JsonArray[index]['법정동']));
-                    // console.log(keyName);
-                })
-                // const setArray = new Set(newArray);
-                const setArray = Array.from(new Set(newArray));
-                console.log("aaaaa = ", setArray);
-                setAptArray(setArray);
+
+                // 들어오는 데이터를 백에서 정제하기
+
+                // console.log(response.data['response']['body']['items']['item']);
+                // const JsonArray = response.data['response']['body']['items']['item'];
+                // // console.log(JsonArray);
+                // var newArray = new Array();
+                // Object.keys(JsonArray).map((keyName:any, index:any ) => {
+                //     // console.log(index);
+                //     console.log(JsonArray[index]);
+                //     newArray.push([JsonArray[index]['아파트'], JsonArray[index]['지번'], JsonArray[index]['법정동']]);
+                //     setAddress(String(JsonArray[index]['법정동']));
+                //     // console.log(keyName);
+                // })
+                // // const setArray = new Set(newArray);
+                // const setArray = Array.from(new Set(newArray));
+                // console.log("aaaaa = ", setArray);
+                // setAptArray(setArray);
             })
             .catch((error) => {
                 console.log(error);
