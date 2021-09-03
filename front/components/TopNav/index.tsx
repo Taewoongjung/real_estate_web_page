@@ -85,7 +85,6 @@ const TopNav:VFC = () => {
                         {showUserMenu && (
                             <Menu style={{ right: 0, top: 38}} show={showUserMenu} onCloseModal={onClickUserProfile}>
                                 <ProfileModal>
-                                    {/*<img src={gravatar.url('aipooh8882@naver.com',{ s:'36px', d:'mp'})} />*/}
                                     <div>
                                         <button type="button" className="btn btn-default btn-sm" onClick={moveFavorite} >
                                             <span className="glyphicon glyphicon-star" aria-hidden="true"></span> 즐겨찾기
