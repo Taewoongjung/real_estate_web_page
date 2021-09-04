@@ -3,7 +3,6 @@ import axios from "axios";
 import {Aside, MapScreen, Table, TableBox} from "./style";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
-import {aaa} from "@typings/db";
 import Scrollbars from "react-custom-scrollbars";
 
 declare global {
