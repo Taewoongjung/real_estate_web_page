@@ -76,7 +76,6 @@ const KaKaoMapFavorite: VFC = () => {
         window.Address = fullAddr;
 
         console.log("addr in useEffect = ", addr);
-        // setPlaceForNews(addr);
         geocoder.addressSearch(place, function(result: any, status: any) {
 
             // 정상적으로 검색이 완료됐으면
