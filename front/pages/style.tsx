@@ -9,7 +9,7 @@ export const Header = styled.header`
 
 export const LoginHeader = styled.header`
   margin-top: 50px;
-  margin-bottom: 0px;
+  margin-bottom: 10px;
   text-align: center;
 `;
 

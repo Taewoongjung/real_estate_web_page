@@ -47,7 +47,7 @@ const LogIn = () => {
     return (
         <div id="container">
             <LoginHeader>
-                <img src={logo}/>
+                <img src={logo} alt="logo"/>
             </LoginHeader>
             <Form onSubmit={onSubmit}>
                 <Label id="email-label">
