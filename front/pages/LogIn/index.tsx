@@ -1,10 +1,11 @@
 import React, {useState, useCallback} from 'react';
 import {Link, Redirect} from 'react-router-dom';
-import {Button, Error, Form, Header, Input, Label, LinkContainer} from '@pages/style';
+import {Button, Error, Form, Header, Input, Label, LinkContainer, LoginHeader} from '@pages/style';
 import useInput from "@hooks/useInput";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 import axios from "axios";
+import myImg from 'utils/logo.png';
 
 const LogIn = () => {
     const {data, error, revalidate, mutate} = useSWR('http://localhost:1010/auth/', fetcher);
@@ -45,9 +46,9 @@ const LogIn = () => {
 
     return (
         <div id="container">
-            <Header>
-                <img src='./utils/logo.png' />
-            </Header>
+            <LoginHeader>
+                <img src={myImg} alt="logo"/>
+            </LoginHeader>
             <Form onSubmit={onSubmit}>
                 <Label id="email-label">
                     <span>이메일 주소</span>

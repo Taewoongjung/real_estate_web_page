@@ -7,6 +7,12 @@ export const Header = styled.header`
   margin-bottom: 0px;
 `;
 
+export const LoginHeader = styled.header`
+  margin-top: 50px;
+  margin-bottom: 0px;
+  text-align: center;
+`;
+
 export const Form = styled.form`
   margin: 0 auto;
   width: 400px;
