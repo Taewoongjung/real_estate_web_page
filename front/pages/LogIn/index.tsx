@@ -5,7 +5,7 @@ import useInput from "@hooks/useInput";
 import useSWR from "swr";
 import fetcher from "@utils/fetcher";
 import axios from "axios";
-import myImg from 'utils/logo.png';
+import logo from "@utils/logo.png";
 
 const LogIn = () => {
     const {data, error, revalidate, mutate} = useSWR('http://localhost:1010/auth/', fetcher);
@@ -47,7 +47,7 @@ const LogIn = () => {
     return (
         <div id="container">
             <LoginHeader>
-                <img src={myImg} alt="logo"/>
+                <img src={logo}/>
             </LoginHeader>
             <Form onSubmit={onSubmit}>
                 <Label id="email-label">

@@ -53,13 +53,13 @@ const config: webpack.Configuration = {
                 test: /\.css?$/,
                 use: ['style-loader', 'css-loader'],
             },
-            // {
-            //     test: /\.(png|jpe?g|svg)$/,
-            //     loader: 'file-loader',
-            //     options: {
-            //         name: 'assets/[name].[ext]',
-            //     }
-            // },
+            {
+                test: /\.(png|jpe?g|gif|jp2|webp)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                }
+            },
         ],
     },
     plugins: [
