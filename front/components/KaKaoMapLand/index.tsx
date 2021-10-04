@@ -419,17 +419,17 @@ const KaKaoMapLand: VFC = () => {
 
     return (
         <>
-            <MapTypeBtn className="btn btn-default" onClick={onClickTrafficMap}>교통정보</MapTypeBtn>
-            <MapTypeBtn className="btn btn-default" onClick={onClickRoadMap}>도로정보</MapTypeBtn>
-            <MapTypeBtn className="btn btn-default" onClick={onClickTerrainMap}>지형정보</MapTypeBtn>
-            <MapTypeBtn className="btn btn-default" onClick={onCLickDistrictMap}>지적편집도</MapTypeBtn>
+            <MapTypeBtn className="btn btn-primary" onClick={onClickTrafficMap}>교통정보</MapTypeBtn>
+            <MapTypeBtn className="btn btn-primary" onClick={onClickRoadMap}>도로정보</MapTypeBtn>
+            <MapTypeBtn className="btn btn-primary" onClick={onClickTerrainMap}>지형정보</MapTypeBtn>
+            <MapTypeBtn className="btn btn-primary" onClick={onCLickDistrictMap}>지적편집도</MapTypeBtn>
             <SearchLandSpace className="col-lg-6">
                 <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search for..." onChange={onSetSearchWords}/>
+                    <input type="text" className="form-control" placeholder="주소 검색   (ex 죽현로 12)" onChange={onSetSearchWords}/>
                     <span className="input-group-btn">
                                 <button className="btn btn-default" type="button" onClick={(e) => {
                                     console.log(words);
-                                }}>Search</button>
+                                }}>검색</button>
                             </span>
                 </div>
             </SearchLandSpace>

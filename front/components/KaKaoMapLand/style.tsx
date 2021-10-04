@@ -6,7 +6,7 @@ export const MapScreen = styled.div`
   margin: 5px;
   padding: 10px;
   width: 100%;
-  height: 900px;
+  height: 88%;
 `;
 
 export const MapTypeBtn = styled.button`
@@ -19,7 +19,7 @@ export const Aside = styled.div<{zIndex:any}>`
   border: 1px solid #999;
   margin-top: 4px;
   width: 300px;
-  height: 900px;
+  height: 88%;
   background-color: aliceblue;
   z-index:${(props) => props.zIndex};
 `;
@@ -35,7 +35,7 @@ export const CancelBtn = styled.button`
 export const BottomBox = styled.div<{zIndex:any}>`
   position: relative;
   width: 82%;
-  left:7px;
+  left: 7px;
   top: 603px;
   float: bottom;
   height: 300px;

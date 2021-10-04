@@ -47,13 +47,6 @@ const TopNav:VFC = () => {
                     <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown">
                         <a href="#" className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown">임장 <span className="caret"></span></a>
                         {navCollapse && <ul className="dropdown-menu" role="menu" aria-labelledby="dropdownCategoryMenu">
-                            <Toggle collapse={navCollapse} onClick={navDropdownCollapse} className="dropdown-submenu">
-                                <a href="#"  className="dropdown-category" id="dropdownCategoryMenu" data-toggle="dropdown"> 주변<span className="caret"></span></a>
-                                {navCollapse && <ul className="dropdown-menu" role="menu" aria-labelledby="dropdownCategoryMenu">
-                                    <li><a href="/category/231"> 산책로</a></li>
-                                    <li><a href="/category/1222"> 맛집</a></li>
-                                </ul>}
-                            </Toggle>
                             <li><a href="/chungyak"> 청약 아파트</a></li>
                         </ul>}
                     </Toggle>
