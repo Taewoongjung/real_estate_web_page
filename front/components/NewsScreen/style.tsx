@@ -22,7 +22,7 @@ export const Container = styled.div`
   justify-items: stretch;
   align-items: center;
   width: 100%;
-  height: 900px;
+  height: 92%;
 `;
 
 export const Boxes = styled.div`
@@ -34,17 +34,20 @@ export const Boxes = styled.div`
 export const LeftTopNews = styled.div`
   grid-area: left_top;
   height: 300px;
-  width: 450px;
+  width: 400px;
+  padding-left: 30px;
 `;
 export const LeftNews = styled.div`
   grid-area: left;
   height: 300px;
-  width: 450px;
+  width: 400px;
+  padding-left: 30px;
 `;
 export const LeftBottomNews = styled.div`
   grid-area: left_bottom;
   height: 300px;
-  width: 450px;
+  width: 400px;
+  padding-left: 30px;
 `;
 export const BottomNews = styled.div`
   grid-area: bottom;
@@ -65,19 +68,21 @@ export const BottomNews = styled.div`
 export const RightBottomNews = styled.div`
   grid-area: right_bottom;
   height: 300px;
-  width: 450px;
+  width: 400px;
+  padding-rightt: 77px;
 `;
 export const RightNews = styled.div`
   grid-area: right;
   height: 300px;
-  width: 450px;
-
+  width: 400px;
+  padding-rightt: 77px;
 `;
 
 export const RightTopNews = styled.div`
   grid-area: right_top;
   height: 300px;
-  width: 450px;
+  width: 400px;
+  padding-rightt: 77px;
 `;
 
 export const MapScreenSpace = styled.div`
