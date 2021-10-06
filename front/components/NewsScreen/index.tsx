@@ -6,7 +6,6 @@ import {
     MapScreenSpace, RightBottomNews, RightNews,
     RightTopNews, SearchSpace
 } from "@components/NewsScreen/style";
-import TopNav from "@components/TopNav";
 import axios from "axios";
 import useInput from "@hooks/useInput";
 
@@ -63,7 +62,6 @@ const NewsScreen = () => {
                             console.log("responsed data = ", data);
 
                             // first
-
                             // @ts-ignore
                             document.getElementById("title_fir").innerHTML = response.data.items[0]['title'];
                             // @ts-ignore
